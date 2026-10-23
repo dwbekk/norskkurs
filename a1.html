@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spørsmål på norsk A1 – med portugisisk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAF0EE; --surface:#F7FAF9; --ink:#17262E; --muted:#5A6B72;
+  --fjord:#1F6F78; --fjord-soft:#D3E6E6; --sun:#E3B23C; --line:#CBD8D6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1B20; --surface:#16252B; --ink:#E4EEEC; --muted:#93A7AC;
+    --fjord:#5FB6BE; --fjord-soft:#1E3A3F; --sun:#E8C15E; --line:#2A3E44;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1B20; --surface:#16252B; --ink:#E4EEEC; --muted:#93A7AC;
+  --fjord:#5FB6BE; --fjord-soft:#1E3A3F; --sun:#E8C15E; --line:#2A3E44;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding:0 18px 60px}
+header{padding:30px 0 20px}
+h1{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:clamp(3rem,13vw,6rem);line-height:.9;margin:0;letter-spacing:-.03em;color:var(--fjord)}
+h1 small{display:block;font-size:.26em;font-weight:500;color:var(--ink);letter-spacing:0;margin-top:.6em;line-height:1.3}
+header p{color:var(--muted);max-width:60ch;margin:14px 0 0}
+.bar{position:relative;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=search]{flex:1 1 100%;min-width:0;font:inherit;font-size:1rem;padding:11px 14px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+input[type=search]:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.toggle{flex:1 1 0;font:inherit;font-weight:700;font-size:.95rem;padding:10px 12px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;white-space:nowrap}
+.toggle[aria-pressed=true]{background:var(--fjord);color:var(--surface);border-color:var(--fjord)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{font:inherit;font-size:.9rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.count{color:var(--muted);font-size:.85rem;margin-top:8px}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;margin:30px 0 6px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h2 span{font-family:"Atkinson Hyperlegible",sans-serif;font-weight:400;font-size:.85rem;color:var(--muted);white-space:nowrap}
+ul{list-style:none;margin:0;padding:0}
+li{display:grid;grid-template-columns:2.4rem 1.1fr 1fr;gap:6px 10px;align-items:baseline;
+  padding:10px 4px;border-bottom:1px solid var(--line)}
+li:last-child{border-bottom:none}
+.n{color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums;grid-row:span 2}
+.no{font-weight:700;font-size:1.06rem}
+.pt{color:var(--muted);border-radius:6px;transition:filter .2s,background .2s}
+.ano,.apt{display:none;font-size:.95rem;padding-left:.9em;text-indent:-.9em}
+.ano{color:var(--fjord)}
+.apt{color:var(--muted);border-radius:6px;transition:filter .2s,background .2s}
+.ano::before,.apt::before{content:"– "}
+body.answers .ano,body.answers .apt{display:block}
+body.testing .pt,body.testing .apt{filter:blur(6px);cursor:pointer;background:var(--fjord-soft)}
+body.testing .pt.shown,body.testing .apt.shown{filter:none;background:transparent}
+@media (max-width:420px){
+  li{grid-template-columns:1fr;gap:2px}
+  .n{grid-row:auto;margin-bottom:-2px}
+  .pt{padding-left:.9em}
+  .ano,.apt{padding-left:.9em}
+}
+.modes{display:flex;gap:4px;margin-bottom:10px;background:var(--fjord-soft);padding:4px;border-radius:12px}
+.mode{flex:1;font:inherit;font-weight:700;font-size:.95rem;padding:9px 10px;border:none;border-radius:9px;
+  background:transparent;color:var(--muted);cursor:pointer}
+.mode[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+#drill{padding-top:4px}
+.intro{color:var(--muted);margin:14px 0 0}
+.task{border-top:1px solid var(--line);padding:26px 0 24px}
+.task:first-of-type{border-top:none}
+.tn{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.prompt{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.45rem;
+  margin:4px 0 14px;line-height:1.2}
+.slot{display:flex;flex-wrap:wrap;align-items:flex-end;gap:7px;min-height:66px;padding:10px;
+  border:2px dashed var(--line);border-radius:12px;background:var(--surface)}
+.slot.over{border-color:var(--fjord);background:var(--fjord-soft)}
+.slot .hint{color:var(--muted);font-size:.92rem;align-self:center}
+.qm{font-weight:700;font-size:1.1rem;padding-bottom:6px;color:var(--muted)}
+.bank{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.chipw{font:inherit;text-align:left;display:block;width:100%;padding:9px 13px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:grab;touch-action:none}
+.chipw.used{visibility:hidden}
+.slot .chipw{width:auto;display:inline-block;border-color:var(--fjord);background:var(--fjord-soft)}
+.wt{display:block;font-weight:700;font-size:1.05rem}
+.wg{display:block;font-size:.82rem;color:var(--muted)}
+.ghost{position:fixed;z-index:50;pointer-events:none;opacity:.92;transform:translate(-50%,-50%);
+  box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:grabbing}
+.gap{width:4px;height:34px;border-radius:2px;background:var(--fjord)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.act{font:inherit;font-weight:700;font-size:.92rem;padding:9px 14px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.act.primary{background:var(--fjord);border-color:var(--fjord);color:var(--surface)}
+.verdict{margin:12px 0 0;font-size:.98rem;min-height:1.2em}
+.verdict.ok{color:var(--fjord);font-weight:700}
+.verdict.no{color:#B4472F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verdict.no{color:#F0866B}}
+:root[data-theme="dark"] .verdict.no{color:#F0866B}
+.verdict .sol{display:block;color:var(--ink);font-weight:700;margin-top:4px}
+.verdict .solpt{display:block;color:var(--muted);font-weight:400;font-size:.9rem}
+.empty{padding:40px 0;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.pt,.apt{transition:none}}
+
+/* --- felles toppmeny --- */
+.sitenav{border-bottom:1px solid var(--line);background:var(--bg)}
+.sitenav .inner{max-width:780px;margin:0 auto;padding:12px 18px;
+  display:flex;align-items:center;gap:14px}
+.brand{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:1.05rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.levels{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.levels::-webkit-scrollbar{display:none}
+.lvl{font:inherit;font-weight:700;font-size:.92rem;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  text-decoration:none;white-space:nowrap}
+.lvl[aria-current=page]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lvl.soon{color:var(--muted);opacity:.65;pointer-events:none}
+.lvl:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+@media (max-width:520px){
+  .sitenav .inner{flex-wrap:wrap;gap:10px}
+  .levels{margin-left:0;width:100%}
+}
+.ptintro{color:var(--muted);max-width:60ch;margin:10px 0 0;font-size:.95rem;opacity:.9;padding-left:12px;border-left:3px solid var(--line)}
+</style>
+</head>
+<body class="answers">
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="a1.html" aria-current="page">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<div class="wrap">
+<header>
+  <h1>Spørsmål<small>Norsk A1 med portugisisk og svar</small></h1>
+  <p id="intro">104 spørsmål du trenger i hverdagen, med oversettelse og et enkelt svar på begge språk. Trykk «Skjul svar» for å øve uten fasit, og «Test meg» for å skjule portugisisken.</p>
+  <p class="ptintro" id="intropt" lang="pt-BR">104 perguntas do dia a dia, com tradução e uma resposta simples nos dois idiomas. Toque em «Skjul svar» para treinar sem o gabarito e em «Test meg» para esconder o português.</p>
+</header>
+<div class="bar">
+  <div class="modes" role="tablist" aria-label="Velg visning">
+    <button class="mode" id="m-list" role="tab" aria-selected="true">Spørsmål</button>
+    <button class="mode" id="m-drill" role="tab" aria-selected="false">Oppgaver</button>
+  </div>
+  <div id="qtools">
+  <div class="row">
+    <input type="search" id="q" placeholder="Søk på norsk eller portugisisk" aria-label="Søk">
+    <button class="toggle" id="ans" aria-pressed="true">Skjul svar</button>
+    <button class="toggle" id="test" aria-pressed="false">Test meg</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="count" id="count"></div>
+  </div>
+</div>
+<main id="list"></main>
+<section id="drill" hidden></section>
+</div>
+<script>
+const RAW = "# Bli kjent\nHva heter du?|Como voc\u00ea se chama?|Jeg heter Ana.|Meu nome \u00e9 Ana.\nHvor kommer du fra?|De onde voc\u00ea \u00e9?|Jeg kommer fra Brasil.|Eu sou do Brasil.\nHvor bor du?|Onde voc\u00ea mora?|Jeg bor i Oslo.|Eu moro em Oslo.\nHvor gammel er du?|Quantos anos voc\u00ea tem?|Jeg er tjuesju \u00e5r.|Eu tenho vinte e sete anos.\nHvilke spr\u00e5k snakker du?|Que idiomas voc\u00ea fala?|Jeg snakker portugisisk og litt norsk.|Eu falo portugu\u00eas e um pouco de noruegu\u00eas.\nSnakker du norsk?|Voc\u00ea fala noruegu\u00eas?|Ja, litt.|Sim, um pouco.\nSnakker du engelsk?|Voc\u00ea fala ingl\u00eas?|Ja, jeg snakker engelsk.|Sim, eu falo ingl\u00eas.\nHvor lenge har du bodd i Norge?|H\u00e1 quanto tempo voc\u00ea mora na Noruega?|I to \u00e5r.|H\u00e1 dois anos.\nHvorfor l\u00e6rer du norsk?|Por que voc\u00ea est\u00e1 aprendendo noruegu\u00eas?|Fordi jeg vil jobbe i Norge.|Porque eu quero trabalhar na Noruega.\nEr du gift?|Voc\u00ea \u00e9 casado?|Nei, jeg er ikke gift.|N\u00e3o, eu n\u00e3o sou casado.\nHar du barn?|Voc\u00ea tem filhos?|Ja, jeg har to barn.|Sim, eu tenho dois filhos.\nHar du s\u00f8sken?|Voc\u00ea tem irm\u00e3os?|Ja, jeg har en bror og en s\u00f8ster.|Sim, eu tenho um irm\u00e3o e uma irm\u00e3.\nHvem er det?|Quem \u00e9 esse?|Det er broren min.|Esse \u00e9 o meu irm\u00e3o.\nHvordan g\u00e5r det?|Como vai?|Det g\u00e5r bra, takk.|Vai bem, obrigado.\nHvordan har du det?|Como voc\u00ea est\u00e1?|Jeg har det fint.|Eu estou bem.\nHva med deg?|E voc\u00ea?|Bra, takk.|Bem, obrigado.\nHyggelig \u00e5 m\u00f8te deg. Og deg?|Prazer em te conhecer. E voc\u00ea?|Hyggelig \u00e5 m\u00f8te deg ogs\u00e5.|Prazer em te conhecer tamb\u00e9m.\n# Jobb og skole\nHva jobber du med?|Com o que voc\u00ea trabalha?|Jeg er l\u00e6rer.|Eu sou professor.\nHvor jobber du?|Onde voc\u00ea trabalha?|Jeg jobber p\u00e5 en skole.|Eu trabalho em uma escola.\nLiker du jobben din?|Voc\u00ea gosta do seu trabalho?|Ja, jeg liker den veldig godt.|Sim, eu gosto muito dele.\nN\u00e5r begynner du p\u00e5 jobb?|Quando voc\u00ea come\u00e7a a trabalhar?|Jeg begynner klokka \u00e5tte.|Eu come\u00e7o \u00e0s oito horas.\nN\u00e5r slutter du?|Quando voc\u00ea termina?|Jeg slutter klokka fire.|Eu termino \u00e0s quatro horas.\nG\u00e5r du p\u00e5 skole?|Voc\u00ea estuda?|Ja, jeg g\u00e5r p\u00e5 norskkurs.|Sim, eu fa\u00e7o um curso de noruegu\u00eas.\nHva studerer du?|O que voc\u00ea estuda?|Jeg studerer \u00f8konomi.|Eu estudo economia.\nEr du student?|Voc\u00ea \u00e9 estudante?|Ja, jeg er student.|Sim, eu sou estudante.\nHvordan kommer du til jobben?|Como voc\u00ea vai para o trabalho?|Jeg tar bussen.|Eu pego o \u00f4nibus.\n# Tid og dager\nHva er klokka?|Que horas s\u00e3o?|Den er halv tre.|S\u00e3o duas e meia.\nHvilken dag er det i dag?|Que dia \u00e9 hoje?|Det er mandag.|Hoje \u00e9 segunda-feira.\nHvilken dato er det i dag?|Qual \u00e9 a data de hoje?|Det er femtende september.|Hoje \u00e9 quinze de setembro.\nN\u00e5r har du bursdag?|Quando \u00e9 o seu anivers\u00e1rio?|Jeg har bursdag i mai.|Meu anivers\u00e1rio \u00e9 em maio.\nHva gj\u00f8r du i helgen?|O que voc\u00ea vai fazer no fim de semana?|Jeg skal bes\u00f8ke en venn.|Eu vou visitar um amigo.\nHva gjorde du i g\u00e5r?|O que voc\u00ea fez ontem?|Jeg var hjemme.|Eu fiquei em casa.\nHva skal du gj\u00f8re i morgen?|O que voc\u00ea vai fazer amanh\u00e3?|Jeg skal jobbe.|Eu vou trabalhar.\nN\u00e5r st\u00e5r du opp?|Quando voc\u00ea se levanta?|Jeg st\u00e5r opp klokka sju.|Eu me levanto \u00e0s sete horas.\nN\u00e5r legger du deg?|Quando voc\u00ea vai dormir?|Jeg legger meg klokka elleve.|Eu vou dormir \u00e0s onze horas.\nHar du tid n\u00e5?|Voc\u00ea tem tempo agora?|Ja, jeg har tid.|Sim, eu tenho tempo.\nN\u00e5r m\u00f8tes vi?|Quando nos encontramos?|Klokka seks.|\u00c0s seis horas.\nHvor lenge varer det?|Quanto tempo dura?|En time.|Uma hora.\n# Mat og drikke\nEr du sulten?|Voc\u00ea est\u00e1 com fome?|Ja, jeg er veldig sulten.|Sim, estou com muita fome.\nEr du t\u00f8rst?|Voc\u00ea est\u00e1 com sede?|Ja, litt.|Sim, um pouco.\nHva vil du spise?|O que voc\u00ea quer comer?|Jeg vil ha fisk.|Eu quero peixe.\nHva vil du drikke?|O que voc\u00ea quer beber?|Et glass vann, takk.|Um copo de \u00e1gua, por favor.\nVil du ha kaffe eller te?|Voc\u00ea quer caf\u00e9 ou ch\u00e1?|Kaffe, takk.|Caf\u00e9, por favor.\nHva spiser du til frokost?|O que voc\u00ea come no caf\u00e9 da manh\u00e3?|Jeg spiser br\u00f8d med ost.|Eu como p\u00e3o com queijo.\nHva liker du \u00e5 spise?|O que voc\u00ea gosta de comer?|Jeg liker ris og kylling.|Eu gosto de arroz com frango.\nKan jeg f\u00e5 menyen?|Pode me dar o card\u00e1pio?|Ja, v\u00e6r s\u00e5 god.|Sim, aqui est\u00e1.\nKan jeg f\u00e5 regningen?|Pode me trazer a conta?|Ja, et \u00f8yeblikk.|Sim, um momento.\nSmaker det godt?|Est\u00e1 gostoso?|Ja, det smaker veldig godt.|Sim, est\u00e1 muito gostoso.\nSkal vi spise middag sammen?|Vamos jantar juntos?|Ja, gjerne.|Sim, com prazer.\n# Butikk og penger\nHvor mye koster det?|Quanto custa?|Det koster femti kroner.|Custa cinquenta coroas.\nHvor mye koster denne?|Quanto custa este?|Hundre kroner.|Cem coroas.\nHar dere melk?|Voc\u00eas t\u00eam leite?|Ja, den st\u00e5r der borte.|Sim, est\u00e1 ali.\nKan jeg betale med kort?|Posso pagar com cart\u00e3o?|Ja, selvf\u00f8lgelig.|Sim, claro.\nVil du ha pose?|Voc\u00ea quer sacola?|Nei takk.|N\u00e3o, obrigado.\nKan jeg hjelpe deg?|Posso te ajudar?|Ja, jeg leter etter br\u00f8d.|Sim, estou procurando p\u00e3o.\nHar du en st\u00f8rre st\u00f8rrelse?|Voc\u00ea tem um tamanho maior?|Et \u00f8yeblikk, jeg skal sjekke.|Um momento, vou verificar.\nN\u00e5r \u00e5pner butikken?|Quando a loja abre?|Klokka ni.|\u00c0s nove horas.\nN\u00e5r stenger butikken?|Quando a loja fecha?|Klokka ti om kvelden.|\u00c0s dez da noite.\n# Veien og transport\nHvor er toalettet?|Onde fica o banheiro?|Det er der borte.|Fica ali.\nHvor er bussholdeplassen?|Onde fica o ponto de \u00f4nibus?|Rett fram og til venstre.|Em frente e \u00e0 esquerda.\nHvor ligger butikken?|Onde fica a loja?|Den ligger ved siden av banken.|Fica ao lado do banco.\nEr det langt?|\u00c9 longe?|Nei, det er ganske n\u00e6rt.|N\u00e3o, \u00e9 bem perto.\nHvordan kommer jeg til sentrum?|Como eu chego ao centro?|Du kan ta bussen.|Voc\u00ea pode pegar o \u00f4nibus.\nHvilken buss g\u00e5r til sentrum?|Qual \u00f4nibus vai para o centro?|Buss nummer tjue.|O \u00f4nibus n\u00famero vinte.\nN\u00e5r g\u00e5r toget?|Quando sai o trem?|Toget g\u00e5r klokka ti.|O trem sai \u00e0s dez horas.\nHvor kj\u00f8per jeg billett?|Onde eu compro a passagem?|P\u00e5 appen eller i automaten.|No aplicativo ou na m\u00e1quina.\nEr denne plassen ledig?|Este lugar est\u00e1 livre?|Ja, sett deg.|Sim, pode sentar.\nKan du vise meg p\u00e5 kartet?|Voc\u00ea pode me mostrar no mapa?|Ja, det er her.|Sim, \u00e9 aqui.\n# Hjemme og familie\nBor du i hus eller leilighet?|Voc\u00ea mora em casa ou apartamento?|Jeg bor i en leilighet.|Eu moro em um apartamento.\nHvor mange rom har du?|Quantos c\u00f4modos voc\u00ea tem?|Jeg har tre rom.|Eu tenho tr\u00eas c\u00f4modos.\nHvem bor du med?|Com quem voc\u00ea mora?|Jeg bor med familien min.|Eu moro com a minha fam\u00edlia.\nHar du dyr?|Voc\u00ea tem animais?|Ja, jeg har en hund.|Sim, eu tenho um cachorro.\nHva heter moren din?|Como se chama sua m\u00e3e?|Hun heter Maria.|Ela se chama Maria.\nHvor bor foreldrene dine?|Onde moram seus pais?|De bor i Brasil.|Eles moram no Brasil.\n# Fritid og v\u00e6r\nHva liker du \u00e5 gj\u00f8re?|O que voc\u00ea gosta de fazer?|Jeg liker \u00e5 lese og trene.|Eu gosto de ler e treinar.\nHva gj\u00f8r du p\u00e5 fritiden?|O que voc\u00ea faz no tempo livre?|Jeg spiller fotball.|Eu jogo futebol.\nLiker du \u00e5 reise?|Voc\u00ea gosta de viajar?|Ja, veldig mye.|Sim, muito.\nHvilken musikk liker du?|Que m\u00fasica voc\u00ea gosta?|Jeg liker brasiliansk musikk.|Eu gosto de m\u00fasica brasileira.\nVil du bli med p\u00e5 kino?|Voc\u00ea quer ir ao cinema comigo?|Ja, gjerne.|Sim, com prazer.\nSkal vi g\u00e5 tur?|Vamos dar uma caminhada?|Ja, det vil jeg gjerne.|Sim, eu quero.\nHvordan er v\u00e6ret i dag?|Como est\u00e1 o tempo hoje?|Det er sol og varmt.|Est\u00e1 sol e calor.\nEr det kaldt ute?|Est\u00e1 frio l\u00e1 fora?|Ja, det er veldig kaldt.|Sim, est\u00e1 muito frio.\nRegner det?|Est\u00e1 chovendo?|Nei, det regner ikke.|N\u00e3o, n\u00e3o est\u00e1 chovendo.\nLiker du vinteren?|Voc\u00ea gosta do inverno?|Nei, det er for kaldt.|N\u00e3o, \u00e9 frio demais.\n# Helse\nHvordan f\u00f8ler du deg?|Como voc\u00ea est\u00e1 se sentindo?|Jeg er litt syk.|Estou um pouco doente.\nEr du syk?|Voc\u00ea est\u00e1 doente?|Ja, jeg har vondt i hodet.|Sim, estou com dor de cabe\u00e7a.\nHvor har du vondt?|Onde est\u00e1 doendo?|Jeg har vondt i magen.|Estou com dor de barriga.\nTrenger du hjelp?|Voc\u00ea precisa de ajuda?|Ja, takk.|Sim, obrigado.\nKan jeg f\u00e5 en time hos legen?|Posso marcar uma consulta com o m\u00e9dico?|Ja, p\u00e5 torsdag.|Sim, na quinta-feira.\nEr du tr\u00f8tt?|Voc\u00ea est\u00e1 cansado?|Ja, jeg sov d\u00e5rlig.|Sim, eu dormi mal.\n# I klasserommet\nHva betyr det?|O que isso significa?|Det betyr \u00abcasa\u00bb.|Significa \u00abcasa\u00bb.\nHva heter det p\u00e5 norsk?|Como se diz isso em noruegu\u00eas?|Det heter \u00abbord\u00bb.|Chama-se \u00abbord\u00bb.\nHvordan sier man \u2026 p\u00e5 norsk?|Como se diz \u2026 em noruegu\u00eas?|Man sier \u00abtakk\u00bb.|Diz-se \u00abtakk\u00bb.\nHvordan staves det?|Como se escreve isso?|B-O-R-D.|B-O-R-D.\nKan du si det en gang til?|Pode repetir?|Ja, selvf\u00f8lgelig.|Sim, claro.\nKan du snakke litt saktere?|Pode falar um pouco mais devagar?|Ja, beklager.|Sim, desculpa.\nForst\u00e5r du?|Voc\u00ea entende?|Ja, jeg forst\u00e5r.|Sim, eu entendo.\nHar du et sp\u00f8rsm\u00e5l?|Voc\u00ea tem uma pergunta?|Ja, hva betyr \u00abledig\u00bb?|Sim, o que significa \u00abledig\u00bb?\nHvilken side er vi p\u00e5?|Em que p\u00e1gina estamos?|Side tolv.|P\u00e1gina doze.\nKan jeg l\u00e5ne en penn?|Posso pegar uma caneta emprestada?|Ja, v\u00e6r s\u00e5 god.|Sim, aqui est\u00e1.\nEr det riktig?|Est\u00e1 certo?|Ja, det er riktig.|Sim, est\u00e1 certo.\nKan du hjelpe meg?|Voc\u00ea pode me ajudar?|Ja, hva trenger du?|Sim, do que voc\u00ea precisa?\nHva er telefonnummeret ditt?|Qual \u00e9 o seu n\u00famero de telefone?|Det er 400 12 345.|\u00c9 400 12 345.\nHva er e-posten din?|Qual \u00e9 o seu e-mail?|Den st\u00e5r her.|Est\u00e1 aqui.\n";
+const groups=[];let cur=null,n=0;
+RAW.split("\n").forEach(l=>{l=l.trim();if(!l)return;
+  if(l.startsWith("#")){cur={name:l.slice(1).trim(),items:[]};groups.push(cur);return;}
+  const [no,pt,ano,apt]=l.split("|");cur.items.push({no,pt,ano,apt,n:++n});});
+let active="Alle";
+const chips=document.getElementById("chips"),list=document.getElementById("list"),
+  q=document.getElementById("q"),count=document.getElementById("count"),
+  test=document.getElementById("test"),ans=document.getElementById("ans");
+["Alle",...groups.map(g=>g.name)].forEach(name=>{
+  const b=document.createElement("button");b.className="chip";b.textContent=name;
+  b.setAttribute("aria-pressed",name===active);
+  b.onclick=()=>{active=name;chips.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));render();};
+  chips.appendChild(b);});
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function render(){
+  const term=norm(q.value.trim());let html="",total=0;
+  groups.forEach(g=>{
+    if(active!=="Alle"&&g.name!==active)return;
+    const its=g.items.filter(w=>!term||[w.no,w.pt,w.ano,w.apt].some(f=>norm(f).includes(term)));
+    if(!its.length)return;total+=its.length;
+    html+='<section><h2>'+esc(g.name)+'<span>'+its.length+' spørsmål</span></h2><ul>'+
+      its.map(w=>'<li><span class="n">'+w.n+'</span>'+
+      '<span class="no" lang="nb">'+esc(w.no)+'</span>'+
+      '<span class="pt" lang="pt-BR">'+esc(w.pt)+'</span>'+
+      '<span class="ano" lang="nb">'+esc(w.ano)+'</span>'+
+      '<span class="apt" lang="pt-BR">'+esc(w.apt)+'</span></li>').join("")+'</ul></section>';});
+  list.innerHTML=html||'<p class="empty">Ingen treff. Prøv et annet søkeord.</p>';
+  count.textContent="Viser "+total+" av "+n+" spørsmål";}
+q.addEventListener("input",render);
+ans.onclick=()=>{const on=ans.getAttribute("aria-pressed")!=="true";
+  ans.setAttribute("aria-pressed",on);document.body.classList.toggle("answers",on);
+  ans.textContent=on?"Skjul svar":"Vis svar";};
+test.onclick=()=>{const on=test.getAttribute("aria-pressed")!=="true";
+  test.setAttribute("aria-pressed",on);document.body.classList.toggle("testing",on);
+  list.querySelectorAll(".shown").forEach(e=>e.classList.remove("shown"));};
+list.addEventListener("click",e=>{const p=e.target.closest(".pt,.apt");
+  if(p&&document.body.classList.contains("testing"))p.classList.toggle("shown");});
+render();
+
+/* ---------- Oppgaver: sett ordene i riktig rekkefølge ---------- */
+const EX = [{"no": "Hva heter du?", "pt": "Como você se chama?", "w": [{"t": "Hva", "g": "o que / qual"}, {"t": "heter", "g": "se chama"}, {"t": "du", "g": "você"}]}, {"no": "Hvor bor du?", "pt": "Onde você mora?", "w": [{"t": "Hvor", "g": "onde"}, {"t": "bor", "g": "mora"}, {"t": "du", "g": "você"}]}, {"no": "Hvor er toalettet?", "pt": "Onde fica o banheiro?", "w": [{"t": "Hvor", "g": "onde"}, {"t": "er", "g": "é / fica"}, {"t": "toalettet", "g": "o banheiro"}]}, {"no": "Hva er klokka?", "pt": "Que horas são?", "w": [{"t": "Hva", "g": "o que"}, {"t": "er", "g": "é"}, {"t": "klokka", "g": "o relógio / a hora"}]}, {"no": "Hvor kommer du fra?", "pt": "De onde você é?", "w": [{"t": "Hvor", "g": "onde"}, {"t": "kommer", "g": "vem"}, {"t": "du", "g": "você"}, {"t": "fra", "g": "de"}]}, {"no": "Hvor gammel er du?", "pt": "Quantos anos você tem?", "w": [{"t": "Hvor", "g": "quão"}, {"t": "gammel", "g": "velho"}, {"t": "er", "g": "é"}, {"t": "du", "g": "você"}]}, {"no": "Hva jobber du med?", "pt": "Com o que você trabalha?", "w": [{"t": "Hva", "g": "o que"}, {"t": "jobber", "g": "trabalha"}, {"t": "du", "g": "você"}, {"t": "med", "g": "com"}]}, {"no": "Hvor mye koster det?", "pt": "Quanto custa?", "w": [{"t": "Hvor", "g": "quão"}, {"t": "mye", "g": "muito"}, {"t": "koster", "g": "custa"}, {"t": "det", "g": "isso"}]}, {"no": "Kan du hjelpe meg?", "pt": "Você pode me ajudar?", "w": [{"t": "Kan", "g": "pode"}, {"t": "du", "g": "você"}, {"t": "hjelpe", "g": "ajudar"}, {"t": "meg", "g": "me"}]}, {"no": "Hva liker du å gjøre?", "pt": "O que você gosta de fazer?", "w": [{"t": "Hva", "g": "o que"}, {"t": "liker", "g": "gosta"}, {"t": "du", "g": "você"}, {"t": "å", "g": "de (infinitivo)"}, {"t": "gjøre", "g": "fazer"}]}];
+const drill=document.getElementById("drill");
+const state=EX.map(e=>({placed:[],bank:shuffleIdx(e.w.length,e)}));
+function shuffleIdx(len,e){
+  let a=[...Array(len).keys()];
+  for(let t=0;t<40;t++){
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    if(a.some((v,i)=>v!==i))break;
+  }
+  return a;}
+function chip(e,i,where,ti){
+  const b=document.createElement("button");
+  b.className="chipw";b.type="button";b.dataset.i=i;b.dataset.where=where;b.dataset.t=ti;
+  b.innerHTML='<span class="wt" lang="nb"></span><span class="wg" lang="pt-BR"></span>';
+  b.querySelector(".wt").textContent=e.w[i].t;
+  b.querySelector(".wg").textContent=e.w[i].g;
+  return b;}
+function drawTask(ti){
+  const e=EX[ti],st=state[ti],art=drill.children[ti];
+  const slot=art.querySelector(".slot"),bank=art.querySelector(".bank");
+  slot.innerHTML="";
+  if(!st.placed.length){const h=document.createElement("span");h.className="hint";
+    h.textContent="Trykk på et ord under, eller dra det hit";slot.appendChild(h);}
+  st.placed.forEach(i=>slot.appendChild(chip(e,i,"slot",ti)));
+  const qm=document.createElement("span");qm.className="qm";qm.textContent="?";slot.appendChild(qm);
+  bank.innerHTML="";
+  st.bank.forEach(i=>bank.appendChild(chip(e,i,"bank",ti)));
+  if(!st.bank.length){const h=document.createElement("span");h.className="hint";
+    h.textContent="Alle ordene er brukt. Trykk «Sjekk svar».";bank.appendChild(h);}}
+function build(){
+  EX.forEach((e,ti)=>{
+    const art=document.createElement("article");art.className="task";
+    art.innerHTML='<p class="tn"></p><p class="prompt" lang="pt-BR"></p>'+
+      '<div class="slot" lang="nb"></div><div class="bank"></div>'+
+      '<div class="acts"><button class="act primary" data-a="check">Sjekk svar</button>'+
+      '<button class="act" data-a="reset">Nullstill</button>'+
+      '<button class="act" data-a="show">Vis fasit</button></div>'+
+      '<p class="verdict" role="status"></p>';
+    art.querySelector(".tn").textContent="Oppgave "+(ti+1)+" av "+EX.length;
+    art.querySelector(".prompt").textContent=e.pt;
+    drill.appendChild(art);drawTask(ti);});}
+function sentence(ti){return state[ti].placed.map(i=>EX[ti].w[i].t).join(" ")+"?";}
+/* --- tap --- */
+drill.addEventListener("click",ev=>{
+  const a=ev.target.closest(".act");
+  if(a){const ti=[...drill.children].indexOf(a.closest(".task"));act(ti,a.dataset.a);return;}
+  const c=ev.target.closest(".chipw");
+  if(!c||dragMoved)return;
+  const ti=+c.dataset.t,i=+c.dataset.i,st=state[ti];
+  if(c.dataset.where==="bank"){st.bank=st.bank.filter(x=>x!==i);st.placed.push(i);}
+  else{st.placed=st.placed.filter(x=>x!==i);st.bank.push(i);st.bank.sort((a,b)=>a-b);}
+  clearVerdict(ti);drawTask(ti);});
+function clearVerdict(ti){const v=drill.children[ti].querySelector(".verdict");v.textContent="";v.className="verdict";}
+function act(ti,what){
+  const e=EX[ti],st=state[ti],v=drill.children[ti].querySelector(".verdict");
+  if(what==="reset"){st.placed=[];st.bank=shuffleIdx(e.w.length,e);clearVerdict(ti);drawTask(ti);return;}
+  if(what==="show"){st.placed=[...Array(e.w.length).keys()];st.bank=[];drawTask(ti);
+    v.className="verdict";v.innerHTML='Fasit:<span class="sol"></span><span class="solpt"></span>';
+    v.querySelector(".sol").textContent=e.no;v.querySelector(".solpt").textContent=e.pt;return;}
+  if(st.placed.length<e.w.length){v.className="verdict no";
+    v.textContent="Du mangler "+(e.w.length-st.placed.length)+" ord.";return;}
+  if(sentence(ti)===e.no){v.className="verdict ok";v.textContent="Riktig! "+e.no;}
+  else{v.className="verdict no";v.textContent="Ikke helt. Prøv en annen rekkefølge.";}}
+/* --- dra --- */
+let drag=null,dragMoved=false;
+drill.addEventListener("pointerdown",ev=>{
+  const c=ev.target.closest(".chipw");if(!c||ev.button)return;
+  drag={c,x:ev.clientX,y:ev.clientY,ghost:null,ti:+c.dataset.t,i:+c.dataset.i,from:c.dataset.where};
+  dragMoved=false;c.setPointerCapture(ev.pointerId);});
+drill.addEventListener("pointermove",ev=>{
+  if(!drag)return;
+  if(!dragMoved){if(Math.hypot(ev.clientX-drag.x,ev.clientY-drag.y)<7)return;
+    dragMoved=true;const g=drag.c.cloneNode(true);g.className="chipw ghost";
+    g.style.width=drag.c.offsetWidth+"px";document.body.appendChild(g);drag.ghost=g;
+    drag.c.style.opacity=".3";}
+  drag.ghost.style.left=ev.clientX+"px";drag.ghost.style.top=ev.clientY+"px";
+  const slot=drill.children[drag.ti].querySelector(".slot");
+  const r=slot.getBoundingClientRect();
+  const over=ev.clientX>=r.left&&ev.clientX<=r.right&&ev.clientY>=r.top&&ev.clientY<=r.bottom;
+  slot.classList.toggle("over",over);
+  drag.idx=over?insertIndex(slot,ev.clientX,ev.clientY):null;});
+function insertIndex(slot,x,y){
+  const ch=[...slot.querySelectorAll(".chipw")];let idx=ch.length;
+  for(let k=0;k<ch.length;k++){const b=ch[k].getBoundingClientRect();
+    if(y<b.bottom&&x<b.left+b.width/2){idx=k;break;}}
+  return idx;}
+function endDrag(ev){
+  if(!drag)return;const d=drag;drag=null;
+  if(d.ghost)d.ghost.remove();d.c.style.opacity="";
+  const slot=drill.children[d.ti].querySelector(".slot");slot.classList.remove("over");
+  if(!dragMoved)return;
+  const st=state[d.ti];
+  if(d.idx!=null){
+    let arr=st.placed.filter(x=>x!==d.i);
+    let at=Math.min(d.idx,arr.length);
+    if(d.from==="slot"){const old=st.placed.indexOf(d.i);if(d.idx>old)at=Math.min(d.idx-1,arr.length);}
+    arr.splice(at,0,d.i);st.placed=arr;st.bank=st.bank.filter(x=>x!==d.i);
+  }else if(d.from==="slot"){
+    st.placed=st.placed.filter(x=>x!==d.i);st.bank.push(d.i);st.bank.sort((a,b)=>a-b);}
+  clearVerdict(d.ti);drawTask(d.ti);
+  setTimeout(()=>{dragMoved=false;},0);}
+drill.addEventListener("pointerup",endDrag);
+drill.addEventListener("pointercancel",endDrag);
+/* --- faner --- */
+const mList=document.getElementById("m-list"),mDrill=document.getElementById("m-drill"),
+  qtools=document.getElementById("qtools"),listEl=document.getElementById("list"),
+  intro=document.getElementById("intro");
+const INTRO={list:["104 sp\u00f8rsm\u00e5l du trenger i hverdagen, med oversettelse og et enkelt svar p\u00e5 begge spr\u00e5k. Trykk \u00abSkjul svar\u00bb for \u00e5 \u00f8ve uten fasit, og \u00abTest meg\u00bb for \u00e5 skjule portugisisken.","104 perguntas do dia a dia, com tradu\u00e7\u00e3o e uma resposta simples nos dois idiomas. Toque em \u00abSkjul svar\u00bb para treinar sem o gabarito e em \u00abTest meg\u00bb para esconder o portugu\u00eas."],
+  drill:["Sett de norske ordene i riktig rekkef\u00f8lge s\u00e5 de blir sp\u00f8rsm\u00e5let over. Trykk p\u00e5 et ord for \u00e5 flytte det opp, eller dra det p\u00e5 plass. Hvert ord har oversettelsen under seg.","Coloque as palavras norueguesas na ordem certa para formar a pergunta acima. Toque numa palavra para mov\u00ea-la para cima, ou arraste at\u00e9 o lugar. Cada palavra tem a tradu\u00e7\u00e3o embaixo."]};
+function setView(v){
+  const d=v==="drill";
+  mList.setAttribute("aria-selected",!d);mDrill.setAttribute("aria-selected",d);
+  qtools.hidden=d;listEl.hidden=d;drill.hidden=!d;intro.textContent=INTRO[v][0];document.getElementById("intropt").textContent=INTRO[v][1];}
+mList.onclick=()=>setView("list");
+mDrill.onclick=()=>setView("drill");
+build();
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inglês para Brasileiros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF8F0; --surface:#FFFFFF; --ink:#241C14; --muted:#6B5B4C;
+  --ink2:#8A5A2B; --mango:#E2622B; --leaf:#1F7A5A; --soft:#FBE8D3; --line:#E8D6C0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A140F; --surface:#241C16; --ink:#F6EBDF; --muted:#AD9A87;
+    --ink2:#E6A760; --mango:#F2884C; --leaf:#5FC79F; --soft:#32251A; --line:#3A2C21;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A140F; --surface:#241C16; --ink:#F6EBDF; --muted:#AD9A87;
+  --ink2:#E6A760; --mango:#F2884C; --leaf:#5FC79F; --soft:#32251A; --line:#3A2C21;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding:0 18px 70px}
+header{padding:32px 0 18px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:900;font-size:clamp(2.8rem,11vw,5.2rem);
+  line-height:.95;margin:0;letter-spacing:-.02em;color:var(--mango)}
+h1 small{display:block;font-family:Inter,sans-serif;font-size:.21em;font-weight:600;
+  color:var(--ink);letter-spacing:0;margin-top:.7em;line-height:1.35}
+header p{color:var(--muted);max-width:58ch;margin:16px 0 0}
+.bar{position:relative;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:2px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center}
+input[type=search]{flex:1;min-width:0;font:inherit;font-size:1rem;padding:11px 14px;border-radius:12px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+input[type=search]:focus-visible,button:focus-visible{outline:3px solid var(--ink2);outline-offset:2px}
+.test{font:inherit;font-weight:700;padding:11px 15px;border-radius:12px;border:2px solid var(--mango);
+  background:transparent;color:var(--mango);cursor:pointer;white-space:nowrap}
+.test[aria-pressed=true]{background:var(--mango);color:var(--surface)}
+.modes{display:flex;gap:4px;margin-bottom:10px;background:var(--soft);padding:4px;border-radius:12px}
+.mode{flex:1;font:inherit;font-weight:700;font-size:.95rem;padding:9px 10px;border:none;border-radius:9px;
+  background:transparent;color:var(--muted);cursor:pointer}
+.mode[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+body.qmode li{grid-template-columns:2.6rem 1.15fr 1fr}
+body.qmode .en{font-weight:600}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{font:inherit;font-size:.9rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.count{color:var(--muted);font-size:.85rem;margin-top:8px}
+h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.55rem;margin:34px 0 4px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h2 span{font-family:Inter,sans-serif;font-weight:400;font-size:.82rem;color:var(--muted);white-space:nowrap}
+section.star h2{color:var(--mango)}
+section.star ul{background:var(--soft);border-radius:14px;padding:4px 12px}
+section.star li{border-bottom-color:var(--line)}
+.note{color:var(--muted);font-size:.92rem;margin:0 0 10px}
+ul{list-style:none;margin:0;padding:0}
+li{display:grid;grid-template-columns:2.6rem 1fr 1fr;gap:10px;align-items:baseline;
+  padding:9px 4px;border-bottom:1px solid var(--line)}
+li:last-child{border-bottom:none}
+.n{color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums}
+.en{font-weight:700;font-size:1.08rem}
+.pt{color:var(--muted);border-radius:6px;transition:filter .2s,background .2s}
+body.testing .pt{filter:blur(6px);cursor:pointer;background:var(--line)}
+body.testing .pt.shown{filter:none;background:transparent}
+@media (max-width:420px){
+  li{grid-template-columns:1fr;gap:2px}
+  .pt{padding-left:.2em}
+}
+.empty{padding:40px 0;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.pt{transition:none}}
+
+/* --- felles toppmeny --- */
+.sitenav{border-bottom:1px solid var(--line);background:var(--bg)}
+.sitenav .inner{max-width:780px;margin:0 auto;padding:12px 18px;
+  display:flex;align-items:center;gap:14px}
+.brand{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:1.05rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.levels{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.levels::-webkit-scrollbar{display:none}
+.lvl{font:inherit;font-weight:700;font-size:.92rem;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  text-decoration:none;white-space:nowrap}
+.lvl[aria-current=page]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lvl.soon{color:var(--muted);opacity:.65;pointer-events:none}
+.lvl:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+@media (max-width:520px){
+  .sitenav .inner{flex-wrap:wrap;gap:10px}
+  .levels{margin-left:0;width:100%}
+}
+</style>
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html" aria-current="page">English</a></div></div></nav>
+<div class="wrap">
+<header>
+  <h1>English<small>664 palavras e 126 perguntas do dia a dia, com tradução em português</small></h1>
+  <p id="intro">Comece pelas 100 primeiras palavras — com elas você já monta frases simples. Depois siga pelos outros grupos. Ligue «Me teste» para esconder o português e toque na palavra para ver a resposta.</p>
+</header>
+<div class="bar">
+  <div class="modes" role="tablist" aria-label="O que mostrar">
+    <button class="mode" id="m-words" role="tab" aria-selected="true">Palavras</button>
+    <button class="mode" id="m-questions" role="tab" aria-selected="false">Perguntas</button>
+  </div>
+  <div class="row">
+    <input type="search" id="q" placeholder="Buscar em inglês ou português" aria-label="Buscar">
+    <button class="test" id="test" aria-pressed="false">Me teste</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="count" id="count"></div>
+</div>
+<main id="list"></main>
+</div>
+<script>
+const RAW_Q = "# Se conhecer\nWhat's your name?|Qual \u00e9 o seu nome?\nWhere are you from?|De onde voc\u00ea \u00e9?\nWhere do you live?|Onde voc\u00ea mora?\nHow old are you?|Quantos anos voc\u00ea tem?\nWhat languages do you speak?|Que idiomas voc\u00ea fala?\nDo you speak English?|Voc\u00ea fala ingl\u00eas?\nDo you speak Portuguese?|Voc\u00ea fala portugu\u00eas?\nHow long have you been here?|H\u00e1 quanto tempo voc\u00ea est\u00e1 aqui?\nWhy are you learning English?|Por que voc\u00ea est\u00e1 aprendendo ingl\u00eas?\nAre you married?|Voc\u00ea \u00e9 casado?\nDo you have children?|Voc\u00ea tem filhos?\nDo you have brothers or sisters?|Voc\u00ea tem irm\u00e3os?\nWho is that?|Quem \u00e9 aquele?\nHow are you?|Como voc\u00ea est\u00e1?\nHow are you doing?|Como vai voc\u00ea?\nAnd you?|E voc\u00ea?\nNice to meet you. And you?|Prazer em conhecer. E voc\u00ea?\nCan you spell your name, please?|Pode falar seu nome letra por letra?\nWhat's your phone number?|Qual \u00e9 o seu n\u00famero de telefone?\nWhat's your email?|Qual \u00e9 o seu e-mail?\n# Trabalho e escola\nWhat do you do?|O que voc\u00ea faz (de trabalho)?\nWhere do you work?|Onde voc\u00ea trabalha?\nDo you like your job?|Voc\u00ea gosta do seu trabalho?\nWhat time do you start work?|A que horas voc\u00ea come\u00e7a a trabalhar?\nWhat time do you finish?|A que horas voc\u00ea termina?\nDo you work on Saturdays?|Voc\u00ea trabalha no s\u00e1bado?\nAre you a student?|Voc\u00ea \u00e9 estudante?\nWhat do you study?|O que voc\u00ea estuda?\nDo you study English every day?|Voc\u00ea estuda ingl\u00eas todos os dias?\nHow do you get to work?|Como voc\u00ea vai para o trabalho?\nDo you have a meeting today?|Voc\u00ea tem reuni\u00e3o hoje?\nCan I ask you a question?|Posso te fazer uma pergunta?\n# Horas e dias\nWhat time is it?|Que horas s\u00e3o?\nWhat day is it today?|Que dia \u00e9 hoje?\nWhat's the date today?|Qual \u00e9 a data de hoje?\nWhen is your birthday?|Quando \u00e9 seu anivers\u00e1rio?\nWhat are you doing this weekend?|O que voc\u00ea vai fazer neste fim de semana?\nWhat did you do yesterday?|O que voc\u00ea fez ontem?\nWhat are you going to do tomorrow?|O que voc\u00ea vai fazer amanh\u00e3?\nWhat time do you get up?|A que horas voc\u00ea se levanta?\nWhat time do you go to bed?|A que horas voc\u00ea vai dormir?\nDo you have time now?|Voc\u00ea tem tempo agora?\nWhat time do we meet?|A que horas nos encontramos?\nHow long does it take?|Quanto tempo leva?\nAre you free tonight?|Voc\u00ea est\u00e1 livre hoje \u00e0 noite?\nCan we meet on Friday?|Podemos nos encontrar na sexta?\n# Comida e bebida\nAre you hungry?|Voc\u00ea est\u00e1 com fome?\nAre you thirsty?|Voc\u00ea est\u00e1 com sede?\nWhat do you want to eat?|O que voc\u00ea quer comer?\nWhat would you like to drink?|O que voc\u00ea gostaria de beber?\nWould you like coffee or tea?|Voc\u00ea quer caf\u00e9 ou ch\u00e1?\nWhat do you have for breakfast?|O que voc\u00ea come no caf\u00e9 da manh\u00e3?\nWhat food do you like?|Que comida voc\u00ea gosta?\nDo you like Brazilian food?|Voc\u00ea gosta de comida brasileira?\nCan I have the menu, please?|Pode me trazer o card\u00e1pio, por favor?\nCan I have the bill, please?|Pode trazer a conta, por favor?\nIs it good?|Est\u00e1 bom?\nDo you want some more?|Voc\u00ea quer mais um pouco?\nShall we have dinner together?|Vamos jantar juntos?\nCan I have a glass of water?|Pode me dar um copo de \u00e1gua?\n# Compras e dinheiro\nHow much is it?|Quanto custa?\nHow much is this one?|Quanto custa este?\nDo you have milk?|Voc\u00eas t\u00eam leite?\nCan I pay by card?|Posso pagar com cart\u00e3o?\nDo you want a bag?|Voc\u00ea quer uma sacola?\nCan I help you?|Posso ajudar?\nDo you have a bigger size?|Voc\u00ea tem um tamanho maior?\nCan I try it on?|Posso experimentar?\nWhat time do you open?|A que horas voc\u00eas abrem?\nWhat time do you close?|A que horas voc\u00eas fecham?\nIs it too expensive?|Est\u00e1 muito caro?\nCan you give me a discount?|Pode me dar um desconto?\n# Dire\u00e7\u00f5es e transporte\nWhere is the bathroom?|Onde fica o banheiro?\nWhere is the bus stop?|Onde fica o ponto de \u00f4nibus?\nWhere is the supermarket?|Onde fica o supermercado?\nIs it far?|\u00c9 longe?\nHow do I get to the centre?|Como eu chego ao centro?\nWhich bus goes downtown?|Qual \u00f4nibus vai para o centro?\nWhat time does the train leave?|A que horas sai o trem?\nWhere do I buy a ticket?|Onde eu compro a passagem?\nIs this seat free?|Este lugar est\u00e1 livre?\nCan you show me on the map?|Pode me mostrar no mapa?\nWhere are we?|Onde n\u00f3s estamos?\nCan you call a taxi for me?|Pode chamar um t\u00e1xi para mim?\n# Casa e fam\u00edlia\nDo you live in a house or an apartment?|Voc\u00ea mora em casa ou apartamento?\nHow many rooms do you have?|Quantos c\u00f4modos voc\u00ea tem?\nWho do you live with?|Com quem voc\u00ea mora?\nDo you have any pets?|Voc\u00ea tem animais de estima\u00e7\u00e3o?\nWhat's your mother's name?|Como se chama sua m\u00e3e?\nWhere do your parents live?|Onde moram seus pais?\nDo you live near here?|Voc\u00ea mora perto daqui?\n# Tempo livre e clima\nWhat do you like to do?|O que voc\u00ea gosta de fazer?\nWhat do you do in your free time?|O que voc\u00ea faz no tempo livre?\nDo you like travelling?|Voc\u00ea gosta de viajar?\nDo you play any sport?|Voc\u00ea pratica algum esporte?\nWhat music do you like?|Que m\u00fasica voc\u00ea gosta?\nDo you want to go to the cinema?|Voc\u00ea quer ir ao cinema?\nShall we go for a walk?|Vamos dar uma caminhada?\nWhat's the weather like today?|Como est\u00e1 o tempo hoje?\nIs it cold outside?|Est\u00e1 frio l\u00e1 fora?\nIs it raining?|Est\u00e1 chovendo?\nDo you like the rain?|Voc\u00ea gosta de chuva?\n# Sa\u00fade\nHow do you feel?|Como voc\u00ea se sente?\nAre you OK?|Voc\u00ea est\u00e1 bem?\nAre you sick?|Voc\u00ea est\u00e1 doente?\nWhere does it hurt?|Onde est\u00e1 doendo?\nDo you need help?|Voc\u00ea precisa de ajuda?\nCan I see a doctor today?|Posso ver um m\u00e9dico hoje?\nAre you tired?|Voc\u00ea est\u00e1 cansado?\nDid you sleep well?|Voc\u00ea dormiu bem?\n# Na sala de aula\nWhat does it mean?|O que isso significa?\nWhat is this in English?|Como se chama isso em ingl\u00eas?\nHow do you say \u2026 in English?|Como se diz \u2026 em ingl\u00eas?\nHow do you spell it?|Como se escreve?\nCan you say that again?|Pode repetir?\nCan you speak more slowly?|Pode falar mais devagar?\nDo you understand?|Voc\u00ea entende?\nDo you have a question?|Voc\u00ea tem uma pergunta?\nWhat page are we on?|Em que p\u00e1gina estamos?\nCan I borrow a pen?|Posso pegar uma caneta emprestada?\nIs this correct?|Isto est\u00e1 correto?\nCan you help me?|Voc\u00ea pode me ajudar?\nWhat's the difference?|Qual \u00e9 a diferen\u00e7a?\nCan I go to the bathroom?|Posso ir ao banheiro?\nIs there homework today?|Tem li\u00e7\u00e3o de casa hoje?\nDid I say it right?|Eu falei certo?\n";
+const RAW_W = "# \u2b50 As 100 primeiras palavras\nI|eu\nyou|voc\u00ea\nhe|ele\nshe|ela\nit|ele/ela (coisa) / isso\nwe|n\u00f3s\nthey|eles / elas\nmy|meu / minha\nyour|seu / sua\nme|me / mim\nto be|ser / estar\nam|sou / estou\nis|\u00e9 / est\u00e1\nare|\u00e9 / est\u00e1 / s\u00e3o\nwas|era / estava / fui\nwere|eram / estavam\nto have|ter\nhave|tenho / temos\nhas|tem (ele/ela)\nhad|tinha / tive\nto do|fazer\ndo|fa\u00e7o / fazemos\ndoes|faz (ele/ela)\ndid|fez / fiz\nto go|ir\nto come|vir\nto want|querer\nto need|precisar\nto like|gostar\nto know|saber / conhecer\nto think|pensar / achar\nto say|dizer / falar\nto see|ver\nto get|conseguir / pegar / receber\nto make|fazer\nto take|pegar / levar\ncan|poder / saber (habilidade)\nwill|vai / ir\u00e1 (futuro)\nwould|iria / gostaria\nshould|deveria\nmust|dever / ter que\na / an|um / uma\nthe|o / a / os / as\nthis|este / esta / isto\nthat|aquele / aquela / isso\nthese|estes / estas\nthose|aqueles / aquelas\nand|e\nor|ou\nbut|mas\nbecause|porque\nif|se (condi\u00e7\u00e3o)\nso|ent\u00e3o / t\u00e3o\nnot|n\u00e3o (nega\u00e7\u00e3o)\nno|n\u00e3o\nyes|sim\nvery|muito\ntoo|tamb\u00e9m / demais\nonly|s\u00f3 / apenas\nmore|mais\nin|em / dentro de\non|em / sobre\nat|em (ponto / hora)\nto|para / a\nfrom|de / desde\nwith|com\nwithout|sem\nfor|para / por\nof|de\nabout|sobre / a respeito de\nby|por / perto de\nwhat|o que / qual\nwho|quem\nwhere|onde\nwhen|quando\nwhy|por que\nhow|como\nhow much|quanto\nhow many|quantos\nhere|aqui\nthere|ali / l\u00e1\nnow|agora\ntoday|hoje\ntomorrow|amanh\u00e3\nyesterday|ontem\ngood|bom\nbad|ruim\nbig|grande\nsmall|pequeno\nnew|novo\nold|velho / antigo\nplease|por favor\nthank you|obrigado / obrigada\nsorry|desculpa\nhello|oi / ol\u00e1\ngoodbye|tchau\ntime|tempo / hora\nday|dia\npeople|pessoas\nthing|coisa\n# Mais pronomes e palavras-chave\nhis|dele\nher|dela\nour|nosso / nossa\ntheir|deles / delas\nhim|ele (objeto)\nus|nos / para n\u00f3s\nthem|eles (objeto)\nmine|meu (o meu)\nyours|seu (o seu)\nmyself|eu mesmo\nsomeone|algu\u00e9m\nsomething|alguma coisa\nsomewhere|em algum lugar\nanyone|qualquer um / algu\u00e9m\nanything|qualquer coisa\neveryone|todo mundo\neverything|tudo\nnobody|ningu\u00e9m\nnothing|nada\nall|todo / todos\nsome|alguns / um pouco\nany|algum / qualquer\nmany|muitos\nmuch|muito (n\u00e3o cont\u00e1vel)\nfew|poucos\nother|outro\nanother|um outro\nsame|mesmo\neach|cada\nboth|ambos\nevery|cada / todo\nwhich|qual\nwhose|de quem\n# Verbos do dia a dia\nto work|trabalhar\nto live|morar / viver\nto speak|falar (idioma)\nto talk|conversar\nto tell|contar / dizer a algu\u00e9m\nto ask|perguntar / pedir\nto answer|responder\nto listen|escutar\nto hear|ouvir\nto read|ler\nto write|escrever\nto learn|aprender\nto teach|ensinar\nto study|estudar\nto understand|entender\nto remember|lembrar\nto forget|esquecer\nto eat|comer\nto drink|beber\nto cook|cozinhar\nto sleep|dormir\nto wake up|acordar\nto get up|levantar-se\nto wash|lavar\nto clean|limpar\nto buy|comprar\nto sell|vender\nto pay|pagar\nto cost|custar\nto spend|gastar\nto use|usar\nto help|ajudar\nto wait|esperar\nto start|come\u00e7ar\nto finish|terminar\nto stop|parar\nto open|abrir\nto close|fechar\nto put|colocar / p\u00f4r\nto give|dar\nto bring|trazer\nto send|enviar / mandar\nto call|ligar / chamar\nto meet|encontrar / conhecer\nto visit|visitar\nto travel|viajar\nto drive|dirigir\nto walk|caminhar / andar\nto run|correr\nto fly|voar\nto arrive|chegar\nto leave|sair / partir\nto stay|ficar\nto return|voltar\nto find|encontrar / achar\nto look|olhar\nto watch|assistir\nto show|mostrar\nto try|tentar / experimentar\nto choose|escolher\nto decide|decidir\nto change|mudar / trocar\nto feel|sentir\nto love|amar\nto hate|odiar\nto smile|sorrir\nto laugh|rir\nto cry|chorar\nto play|jogar / brincar / tocar\nto sing|cantar\nto dance|dan\u00e7ar\nto win|ganhar\nto lose|perder\nto build|construir\nto fix|consertar\nto move|mover / mudar de casa\nto wear|vestir / usar (roupa)\nto carry|carregar\nto hold|segurar\nto sit|sentar\nto stand|ficar em p\u00e9\nto believe|acreditar\nto hope|esperar (ter esperan\u00e7a)\nto mean|significar\nto seem|parecer\nto become|tornar-se / ficar\nto let|deixar\nto keep|manter / guardar\nto miss|sentir falta / perder\nto borrow|pegar emprestado\nto lend|emprestar\nto practise|praticar\nto rest|descansar\nto breathe|respirar\nto count|contar (n\u00fameros)\n# Adjetivos\nhappy|feliz\nsad|triste\nangry|bravo\ntired|cansado\nhungry|com fome\nthirsty|com sede\nsick|doente\nhealthy|saud\u00e1vel\nbusy|ocupado\nfree|livre / gr\u00e1tis\nready|pronto\nsure|certo / seguro\nafraid|com medo\nsurprised|surpreso\nbeautiful|bonito / lindo\nugly|feio\nnice|legal / simp\u00e1tico\nkind|gentil\nfriendly|amig\u00e1vel\nfunny|engra\u00e7ado\nboring|chato\ninteresting|interessante\nimportant|importante\neasy|f\u00e1cil\ndifficult|dif\u00edcil\nhard|dif\u00edcil / duro\nsimple|simples\nstrong|forte\nweak|fraco\nfast|r\u00e1pido\nslow|devagar / lento\nlong|comprido / longo\nshort|curto / baixo\ntall|alto (pessoa)\nhigh|alto (altura)\nlow|baixo\nheavy|pesado\nlight|leve / claro\nhot|quente\nwarm|morno / quente agrad\u00e1vel\ncold|frio\ncool|fresco / legal\nwet|molhado\ndry|seco\nclean|limpo\ndirty|sujo\nfull|cheio\nempty|vazio\nopen (adj)|aberto\nclosed|fechado\ncheap|barato\nexpensive|caro\nrich|rico\npoor|pobre\nyoung|jovem\nright|certo / direita\nwrong|errado\ntrue|verdadeiro\nfalse|falso\ndifferent|diferente\nnext|pr\u00f3ximo\nlast|\u00faltimo / passado\nfirst|primeiro\nsecond|segundo\nearly|cedo\nlate|tarde\nsafe|seguro\ndangerous|perigoso\npossible|poss\u00edvel\nquiet|quieto / silencioso\nloud|alto (som)\n# Adv\u00e9rbios e conex\u00f5es\nalways|sempre\nnever|nunca\noften|frequentemente\nsometimes|\u00e0s vezes\nusually|geralmente\nrarely|raramente\nagain|de novo\nstill|ainda\nalready|j\u00e1\nyet|ainda (em perguntas/negativas)\nsoon|em breve\nlater|mais tarde\nbefore|antes\nafter|depois\nthen|ent\u00e3o / depois\nfinally|finalmente\nmaybe|talvez\nof course|claro\nreally|de verdade / mesmo\nalmost|quase\nenough|suficiente\ntogether|juntos\nalone|sozinho\nwell|bem\nbetter|melhor\nbest|o melhor\nworse|pior\nless|menos\na lot|muito\na little|um pouco\nquite|bastante\njust|s\u00f3 / acabou de\neven|at\u00e9 mesmo\ninstead|em vez disso\nhowever|no entanto\nalthough|embora\nwhile|enquanto\nuntil|at\u00e9\nsince|desde / j\u00e1 que\nduring|durante\nbetween|entre\nunder|debaixo de\nover|sobre / acima\nabove|acima de\nbelow|abaixo de\nbehind|atr\u00e1s de\nin front of|na frente de\nnext to|ao lado de\nnear|perto de\nfar|longe\ninside|dentro\noutside|fora\nup|para cima\ndown|para baixo\nleft|esquerda\nstraight|reto / em frente\naround|ao redor / em volta\nthrough|atrav\u00e9s de\nacross|do outro lado\naway|longe / embora\nback|de volta / costas\n# N\u00fameros\nzero|zero\none|um\ntwo|dois\nthree|tr\u00eas\nfour|quatro\nfive|cinco\nsix|seis\nseven|sete\neight|oito\nnine|nove\nten|dez\neleven|onze\ntwelve|doze\nthirteen|treze\nfifteen|quinze\ntwenty|vinte\nthirty|trinta\nforty|quarenta\nfifty|cinquenta\nhundred|cem\nthousand|mil\nmillion|milh\u00e3o\nhalf|metade / meio\nnumber|n\u00famero\n# Tempo e datas\nhour|hora\nminute|minuto\nsecond (time)|segundo\nweek|semana\nmonth|m\u00eas\nyear|ano\nmorning|manh\u00e3\nafternoon|tarde\nevening|fim de tarde / noite\nnight|noite\nweekend|fim de semana\ntonight|hoje \u00e0 noite\nbirthday|anivers\u00e1rio\nholiday|feriado / f\u00e9rias\nMonday|segunda-feira\nTuesday|ter\u00e7a-feira\nWednesday|quarta-feira\nThursday|quinta-feira\nFriday|sexta-feira\nSaturday|s\u00e1bado\nSunday|domingo\nJanuary|janeiro\nFebruary|fevereiro\nMarch|mar\u00e7o\nApril|abril\nMay|maio\nJune|junho\nJuly|julho\nAugust|agosto\nSeptember|setembro\nOctober|outubro\nNovember|novembro\nDecember|dezembro\nspring|primavera\nsummer|ver\u00e3o\nautumn / fall|outono\nwinter|inverno\n# Pessoas e fam\u00edlia\nperson|pessoa\nman|homem\nwoman|mulher\nboy|menino\ngirl|menina\nchild|crian\u00e7a\nchildren|crian\u00e7as\nbaby|beb\u00ea\nfriend|amigo\nfamily|fam\u00edlia\nmother|m\u00e3e\nfather|pai\nmom|mam\u00e3e\ndad|papai\nparents|pais\nson|filho\ndaughter|filha\nbrother|irm\u00e3o\nsister|irm\u00e3\ngrandmother|av\u00f3\ngrandfather|av\u00f4\nhusband|marido\nwife|esposa\nboyfriend|namorado\ngirlfriend|namorada\nneighbour|vizinho\ncolleague|colega de trabalho\nboss|chefe\nteacher|professor\nstudent|aluno / estudante\ndoctor|m\u00e9dico\nnurse|enfermeiro\ndriver|motorista\n# Corpo\nbody|corpo\nhead|cabe\u00e7a\nface|rosto\neye|olho\near|orelha\nnose|nariz\nmouth|boca\ntooth|dente\nhair|cabelo\nneck|pesco\u00e7o\nhand|m\u00e3o\narm|bra\u00e7o\nfinger|dedo\nleg|perna\nfoot|p\u00e9\nback (body)|costas\nstomach|est\u00f4mago / barriga\nheart|cora\u00e7\u00e3o\nskin|pele\nblood|sangue\npain|dor\n# Casa\nhouse|casa\nhome|lar / casa\napartment|apartamento\nroom|quarto / c\u00f4modo\nkitchen|cozinha\nbathroom|banheiro\nbedroom|quarto de dormir\nliving room|sala de estar\ndoor|porta\nwindow|janela\nfloor|ch\u00e3o / andar\nwall|parede\nroof|telhado\ntable|mesa\nchair|cadeira\nbed|cama\nsofa|sof\u00e1\nkey|chave\nlight (lamp)|luz\nwater|\u00e1gua\nphone|telefone\ncomputer|computador\nTV|televis\u00e3o\ncar|carro\ngarden|jardim / quintal\n# Comida e bebida\nfood|comida\nbread|p\u00e3o\nrice|arroz\nbeans|feij\u00e3o\nmeat|carne\nchicken|frango\nfish|peixe\negg|ovo\ncheese|queijo\nbutter|manteiga\nmilk|leite\ncoffee|caf\u00e9\ntea|ch\u00e1\njuice|suco\nbeer|cerveja\nwine|vinho\nsugar|a\u00e7\u00facar\nsalt|sal\nfruit|fruta\napple|ma\u00e7\u00e3\nbanana|banana\norange|laranja\nvegetable|legume / verdura\npotato|batata\ntomato|tomate\nonion|cebola\nsoup|sopa\ncake|bolo\nchocolate|chocolate\nice cream|sorvete\nbreakfast|caf\u00e9 da manh\u00e3\nlunch|almo\u00e7o\ndinner|jantar\nplate|prato\nglass|copo\ncup|x\u00edcara\nfork|garfo\nknife|faca\nspoon|colher\n# Lugares e viagem\ncity|cidade\ntown|cidade pequena\ncountry|pa\u00eds\nstreet|rua\nroad|estrada\nplace|lugar\nshop / store|loja\nsupermarket|supermercado\nmarket|mercado / feira\nschool|escola\nuniversity|universidade\noffice|escrit\u00f3rio\nhospital|hospital\npharmacy|farm\u00e1cia\nbank|banco\nchurch|igreja\nrestaurant|restaurante\nhotel|hotel\nairport|aeroporto\nstation|esta\u00e7\u00e3o\nbus|\u00f4nibus\ntrain|trem\nplane|avi\u00e3o\ntaxi|t\u00e1xi\nbike|bicicleta\nticket|passagem / ingresso\nmap|mapa\nbeach|praia\npark|parque\nriver|rio\nmountain|montanha\nsea|mar\nworld|mundo\n# Trabalho e estudo\nwork|trabalho\njob|emprego\ncompany|empresa\nmoney|dinheiro\nprice|pre\u00e7o\nbill|conta\ncard|cart\u00e3o\ncash|dinheiro em esp\u00e9cie\nsalary|sal\u00e1rio\nmeeting|reuni\u00e3o\nemail|e-mail\nmessage|mensagem\nquestion|pergunta\nanswer|resposta\nproblem|problema\nidea|ideia\nexample|exemplo\nword|palavra\nsentence|frase\nlanguage|idioma\nEnglish|ingl\u00eas\nPortuguese|portugu\u00eas\nbook|livro\npaper|papel\npen|caneta\npage|p\u00e1gina\nhomework|li\u00e7\u00e3o de casa\ntest|prova / teste\nclass|aula / turma\ncourse|curso\n# Clima e natureza\nweather|tempo (clima)\nsun|sol\nrain|chuva\nsnow|neve\nwind|vento\ncloud|nuvem\nstorm|tempestade\nsky|c\u00e9u\ntree|\u00e1rvore\nflower|flor\ngrass|grama\nanimal|animal\ndog|cachorro\ncat|gato\nbird|p\u00e1ssaro\nhorse|cavalo\nfire|fogo\n# Cores e roupas\ncolour|cor\nred|vermelho\nblue|azul\ngreen|verde\nyellow|amarelo\nblack|preto\nwhite|branco\ngrey|cinza\nbrown|marrom\npink|rosa\norange (colour)|laranja (cor)\nclothes|roupas\nshirt|camisa\nT-shirt|camiseta\ntrousers / pants|cal\u00e7a\ndress|vestido\nshoes|sapatos\njacket|jaqueta / casaco\nhat|chap\u00e9u / bon\u00e9\nbag|bolsa / sacola\n# Express\u00f5es \u00fateis\nHow are you?|Como voc\u00ea est\u00e1?\nI'm fine|Estou bem\nNice to meet you|Prazer em conhecer\nSee you later|At\u00e9 mais tarde\nGood morning|Bom dia\nGood afternoon|Boa tarde\nGood night|Boa noite\nExcuse me|Com licen\u00e7a / Desculpe\nYou're welcome|De nada\nI don't know|Eu n\u00e3o sei\nI don't understand|Eu n\u00e3o entendo\nCan you help me?|Voc\u00ea pode me ajudar?\nCan you repeat?|Pode repetir?\nSpeak slowly, please|Fale devagar, por favor\nWhat does it mean?|O que isso significa?\nHow do you say \u2026 in English?|Como se diz \u2026 em ingl\u00eas?\nHow much is it?|Quanto custa?\nWhere is the bathroom?|Onde fica o banheiro?\nI would like \u2026|Eu gostaria de \u2026\nI need help|Eu preciso de ajuda\nJust a moment|Um momento\nNo problem|Sem problema\nOf course|Claro\nI'm sorry, I'm late|Desculpe, estou atrasado\nLet's go|Vamos\n";
+function parse(raw){const gs=[];let cur=null,n=0;
+  raw.split("\n").forEach(l=>{l=l.trim();if(!l)return;
+    if(l.startsWith("#")){cur={name:l.slice(1).trim(),words:[]};gs.push(cur);return;}
+    const [en,pt]=l.split("|");cur.words.push({en,pt,n:++n});});
+  return {groups:gs,n};}
+const SETS={words:parse(RAW_W),questions:parse(RAW_Q)};
+let mode="words",groups=SETS.words.groups,n=SETS.words.n;
+let active="Todas";
+const chips=document.getElementById("chips"),list=document.getElementById("list"),
+  q=document.getElementById("q"),count=document.getElementById("count"),test=document.getElementById("test");
+function buildChips(){chips.innerHTML="";active="Todas";
+  ["Todas",...groups.map(g=>g.name)].forEach(name=>{
+    const b=document.createElement("button");b.className="chip";b.textContent=name;
+    b.setAttribute("aria-pressed",name===active);
+    b.onclick=()=>{active=name;chips.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));render();};
+    chips.appendChild(b);});}
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+var LABEL="palavras";
+function render(){
+  const term=norm(q.value.trim());let html="",total=0;
+  groups.forEach(g=>{
+    if(active!=="Todas"&&g.name!==active)return;
+    const ws=g.words.filter(w=>!term||norm(w.en).includes(term)||norm(w.pt).includes(term));
+    if(!ws.length)return;total+=ws.length;
+    const star=mode==="words"&&g.name.indexOf("100")>-1;
+    html+='<section'+(star?' class="star"':'')+'><h2>'+esc(g.name)+'<span>'+ws.length+' '+LABEL+'</span></h2>'+
+      (star?'<p class="note">A base do inglês falado: pronomes, os verbos mais usados, preposições e as perguntas.</p>':'')+
+      '<ul>'+ws.map(w=>'<li><span class="n">'+w.n+'</span><span class="en" lang="en">'+esc(w.en)+
+      '</span><span class="pt" lang="pt-BR">'+esc(w.pt)+'</span></li>').join("")+'</ul></section>';});
+  list.innerHTML=html||'<p class="empty">Nada encontrado. Tente outra busca.</p>';
+  count.textContent="Mostrando "+total+" de "+n+" "+LABEL;}
+const TXT={words:["Comece pelas 100 primeiras palavras — com elas você já monta frases simples. Depois siga pelos outros grupos. Ligue «Me teste» para esconder o português e toque na palavra para ver a resposta.","Buscar em inglês ou português","palavras"],
+  questions:["Perguntas de nível A1 para conversar no dia a dia: se apresentar, pedir informação, comprar, pedir ajuda e falar na aula. Ligue «Me teste» para esconder o português.","Buscar em inglês ou português","perguntas"]};
+function setMode(m){mode=m;groups=SETS[m].groups;n=SETS[m].n;LABEL=TXT[m][2];
+  document.body.classList.toggle("qmode",m==="questions");
+  document.getElementById("m-words").setAttribute("aria-selected",m==="words");
+  document.getElementById("m-questions").setAttribute("aria-selected",m==="questions");
+  document.getElementById("intro").textContent=TXT[m][0];
+  q.value="";q.placeholder=TXT[m][1];buildChips();render();}
+document.getElementById("m-words").onclick=()=>setMode("words");
+document.getElementById("m-questions").onclick=()=>setMode("questions");
+q.addEventListener("input",render);
+test.onclick=()=>{const on=test.getAttribute("aria-pressed")!=="true";
+  test.setAttribute("aria-pressed",on);document.body.classList.toggle("testing",on);
+  list.querySelectorAll(".pt.shown").forEach(e=>e.classList.remove("shown"));};
+list.addEventListener("click",e=>{const p=e.target.closest(".pt");if(p&&document.body.classList.contains("testing"))p.classList.toggle("shown");});
+buildChips();render();
+</script>
+</body>
+</html>

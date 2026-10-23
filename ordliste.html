@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>500 norske hverdagsord – med portugisisk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAF0EE; --surface:#F7FAF9; --ink:#17262E; --muted:#5A6B72;
+  --fjord:#1F6F78; --fjord-soft:#D3E6E6; --sun:#E3B23C; --line:#CBD8D6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1B20; --surface:#16252B; --ink:#E4EEEC; --muted:#93A7AC;
+    --fjord:#5FB6BE; --fjord-soft:#1E3A3F; --sun:#E8C15E; --line:#2A3E44;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1B20; --surface:#16252B; --ink:#E4EEEC; --muted:#93A7AC;
+  --fjord:#5FB6BE; --fjord-soft:#1E3A3F; --sun:#E8C15E; --line:#2A3E44;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+header{padding:30px 0 20px}
+h1{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:clamp(3.2rem,14vw,6.5rem);line-height:.9;margin:0;letter-spacing:-.03em;color:var(--fjord)}
+h1 small{display:block;font-size:.3em;font-weight:500;color:var(--ink);letter-spacing:0;margin-top:.5em;line-height:1.2}
+header p{color:var(--muted);max-width:60ch;margin:14px 0 0}
+.bar{position:relative;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line)}
+.row{display:flex;gap:10px;align-items:center}
+input[type=search]{flex:1;min-width:0;font:inherit;font-size:1rem;padding:11px 14px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+input[type=search]:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.test{font:inherit;font-weight:700;padding:11px 14px;border-radius:10px;border:1.5px solid var(--fjord);
+  background:transparent;color:var(--fjord);cursor:pointer;white-space:nowrap}
+.test[aria-pressed=true]{background:var(--fjord);color:var(--surface)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{font:inherit;font-size:.9rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.count{color:var(--muted);font-size:.85rem;margin-top:8px}
+h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;margin:30px 0 6px;
+  display:flex;justify-content:space-between;align-items:baseline}
+h2 span{font-family:"Atkinson Hyperlegible",sans-serif;font-weight:400;font-size:.85rem;color:var(--muted)}
+ul{list-style:none;margin:0;padding:0}
+li{display:grid;grid-template-columns:2.6rem 1fr 1fr;gap:10px;align-items:baseline;
+  padding:9px 4px;border-bottom:1px solid var(--line)}
+.n{color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums}
+.no{font-weight:700;font-size:1.08rem}
+.pt{color:var(--muted);border-radius:6px;transition:filter .2s,background .2s}
+body.testing .pt{filter:blur(6px);cursor:pointer;background:var(--fjord-soft)}
+body.testing .pt.shown{filter:none;background:transparent}
+@media (max-width:420px){
+  li{grid-template-columns:1fr;gap:2px}
+  .pt{padding-left:.2em}
+}
+.empty{padding:40px 0;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.pt{transition:none}}
+
+/* --- felles toppmeny --- */
+.sitenav{border-bottom:1px solid var(--line);background:var(--bg)}
+.sitenav .inner{max-width:780px;margin:0 auto;padding:12px 18px;
+  display:flex;align-items:center;gap:14px}
+.brand{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:1.05rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.levels{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.levels::-webkit-scrollbar{display:none}
+.lvl{font:inherit;font-weight:700;font-size:.92rem;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  text-decoration:none;white-space:nowrap}
+.lvl[aria-current=page]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lvl.soon{color:var(--muted);opacity:.65;pointer-events:none}
+.lvl:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+@media (max-width:520px){
+  .sitenav .inner{flex-wrap:wrap;gap:10px}
+  .levels{margin-left:0;width:100%}
+}
+.ptintro{color:var(--muted);max-width:60ch;margin:10px 0 0;font-size:.95rem;opacity:.9;padding-left:12px;border-left:3px solid var(--line)}
+</style>
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html" aria-current="page">Palavras</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<div class="wrap">
+<header>
+  <h1>500 ord<small>Norske hverdagsord med portugisisk</small></h1>
+  <p>Ordene er sortert etter type. Slå på «Test meg» for å skjule portugisisken og trykk på et ord for å se svaret.</p>
+  <p class="ptintro" lang="pt-BR">As palavras estão organizadas por tipo. Ligue «Test meg» para esconder o português e toque na palavra para ver a resposta.</p>
+</header>
+<div class="bar">
+  <div class="row">
+    <input type="search" id="q" placeholder="Søk på norsk eller portugisisk" aria-label="Søk">
+    <button class="test" id="test" aria-pressed="false">Test meg</button>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="count" id="count"></div>
+</div>
+<main id="list"></main>
+</div>
+<script>
+const RAW = `# Pronomen
+jeg|eu
+du|você
+han|ele
+hun|ela
+den|ele/ela (coisa)
+det|isso / ele (neutro)
+vi|nós
+dere|vocês
+de|eles/elas
+meg|me / mim
+deg|te / você
+ham|ele (objeto)
+henne|ela (objeto)
+oss|nos / nós
+dem|eles (objeto)
+seg|se (reflexivo)
+min|meu / minha
+din|seu / sua
+hans|dele
+hennes|dela
+vår|nosso / nossa
+deres|de vocês / deles
+sin|seu / sua (próprio)
+denne|este / esta
+dette|isto / este
+disse|estes / estas
+hva|o que
+hvem|quem
+hvor|onde
+når|quando
+hvorfor|por que
+hvordan|como
+hvilken|qual
+noen|alguém / alguns
+ingen|ninguém / nenhum
+alle|todos
+alt|tudo
+ingenting|nada
+noe|algo / alguma coisa
+annen|outro / outra
+selv|mesmo / próprio
+hver|cada
+man|a gente / se (impessoal)
+som|que / como
+# Småord
+og|e
+eller|ou
+men|mas
+at|que
+fordi|porque
+hvis|se (condição)
+om|se / sobre
+så|então / tão
+da|quando / então
+enn|do que
+både|tanto … quanto
+også|também
+ikke|não
+ja|sim
+nei|não
+jo|sim (contrariando)
+i|em / dentro de
+på|em / sobre
+til|para / até
+fra|de / desde
+med|com
+uten|sem
+for|para / por
+av|de / por
+under|debaixo de / durante
+over|sobre / acima de
+etter|depois de
+før|antes
+mellom|entre
+ved|perto de / junto a
+mot|contra / em direção a
+hos|na casa de
+gjennom|através de
+rundt|ao redor de
+bak|atrás de
+foran|na frente de
+ved siden av|ao lado de
+inn|para dentro
+ut|para fora
+opp|para cima
+ned|para baixo
+hjem|para casa
+hjemme|em casa
+her|aqui
+der|ali / lá
+borte|fora / longe
+# Adverb
+nå|agora
+alltid|sempre
+aldri|nunca
+ofte|muitas vezes
+noen ganger|às vezes
+sjelden|raramente
+snart|logo / em breve
+allerede|já
+fortsatt|ainda
+bare|só / apenas
+veldig|muito
+mye|muito
+lite|pouco
+litt|um pouco
+mer|mais
+mest|o mais
+mindre|menos
+nok|suficiente / provavelmente
+kanskje|talvez
+sikkert|com certeza
+selvfølgelig|claro / com certeza
+egentlig|na verdade
+bra|bem / bom
+godt|bem
+dårlig|mal / ruim
+fort|rápido
+sakte|devagar
+tidlig|cedo
+sent|tarde
+igjen|de novo
+sammen|juntos
+alene|sozinho
+først|primeiro
+deretter|depois disso
+straks|imediatamente
+nesten|quase
+helt|completamente
+ganske|bastante
+langt|longe
+nær|perto
+i dag|hoje
+i går|ontem
+i morgen|amanhã
+i kveld|hoje à noite
+# Verb
+å være|ser / estar
+å ha|ter
+å gjøre|fazer
+å si|dizer
+å få|receber / conseguir
+å gå|ir (a pé) / andar
+å komme|vir
+å se|ver
+å vite|saber
+å ville|querer
+å kunne|poder / saber
+å måtte|ter que
+å skulle|ir (futuro) / dever
+å bli|ficar / tornar-se
+å ta|pegar / tomar
+å gi|dar
+å finne|encontrar
+å tenke|pensar
+å tro|acreditar / achar
+å synes|achar (opinião)
+å like|gostar
+å elske|amar
+å snakke|falar
+å høre|ouvir
+å lytte|escutar
+å spørre|perguntar
+å svare|responder
+å fortelle|contar
+å forstå|entender
+å lære|aprender / ensinar
+å lese|ler
+å skrive|escrever
+å jobbe|trabalhar
+å arbeide|trabalhar
+å bo|morar
+å leve|viver
+å spise|comer
+å drikke|beber
+å sove|dormir
+å våkne|acordar
+å stå opp|levantar-se
+å legge seg|deitar-se
+å sitte|estar sentado
+å stå|estar em pé
+å ligge|estar deitado
+å løpe|correr
+å kjøre|dirigir
+å reise|viajar
+å fly|voar
+å sykle|andar de bicicleta
+å gå tur|passear
+å kjøpe|comprar
+å selge|vender
+å betale|pagar
+å koste|custar
+å bruke|usar / gastar
+å trenge|precisar
+å hjelpe|ajudar
+å vente|esperar
+å begynne|começar
+å slutte|parar / terminar
+å åpne|abrir
+å lukke|fechar
+å sette|colocar / pôr
+å legge|colocar (deitado)
+å holde|segurar
+å bære|carregar
+å vise|mostrar
+å prøve|tentar / experimentar
+å bestemme|decidir
+å velge|escolher
+å huske|lembrar
+å glemme|esquecer
+å møte|encontrar (alguém)
+å besøke|visitar
+å ringe|ligar (telefonar)
+å sende|enviar
+å kjenne|conhecer
+å føle|sentir
+å le|rir
+å smile|sorrir
+å gråte|chorar
+å lage|fazer / preparar
+å lage mat|cozinhar
+å vaske|lavar
+å rydde|arrumar
+å handle|fazer compras
+å spille|jogar / tocar
+å synge|cantar
+å danse|dançar
+å se på|assistir / olhar
+å leke|brincar
+å trene|treinar / malhar
+å hvile|descansar
+å bety|significar
+å hete|chamar-se
+å bli med|ir junto / acompanhar
+å ønske|desejar
+å håpe|esperar (ter esperança)
+å be|pedir / orar
+å takke|agradecer
+å unnskylde|desculpar
+å bytte|trocar
+å låne|emprestar / pegar emprestado
+å miste|perder
+å vinne|ganhar
+å tape|perder (jogo)
+å bygge|construir
+å reparere|consertar
+å dra|ir embora / puxar
+å flytte|mudar(-se)
+å forklare|explicar
+å øve|praticar
+# Adjektiv
+god|bom
+vond|ruim / dolorido
+stor|grande
+liten|pequeno
+ny|novo
+gammel|velho
+ung|jovem
+lang|comprido / longo
+kort|curto
+høy|alto
+lav|baixo
+fin|bonito / legal
+pen|bonito
+stygg|feio
+glad|feliz / alegre
+lei seg|chateado
+trist|triste
+sint|bravo / irritado
+redd|com medo
+trøtt|cansado
+sulten|com fome
+tørst|com sede
+syk|doente
+frisk|saudável
+varm|quente
+kald|frio
+billig|barato
+dyr|caro
+lett|fácil / leve
+vanskelig|difícil
+tung|pesado
+rask|rápido
+treg|lento
+sterk|forte
+svak|fraco
+rik|rico
+fattig|pobre
+full|cheio
+tom|vazio
+ren|limpo
+skitten|sujo
+åpen|aberto
+stengt|fechado
+riktig|certo / correto
+feil|errado
+viktig|importante
+interessant|interessante
+morsom|divertido / engraçado
+kjedelig|chato
+snill|gentil / bonzinho
+hyggelig|agradável / simpático
+travel|ocupado
+ledig|livre / disponível
+klar|pronto / claro
+sikker|seguro / certo
+mulig|possível
+umulig|impossível
+lik|igual / parecido
+forskjellig|diferente
+neste|próximo
+forrige|anterior / passado
+siste|último
+første|primeiro
+hel|inteiro
+halv|meio / metade
+norsk|norueguês
+brasiliansk|brasileiro
+rød|vermelho
+blå|azul
+grønn|verde
+gul|amarelo
+svart|preto
+hvit|branco
+grå|cinza
+brun|marrom
+rosa|rosa
+oransje|laranja
+# Tall
+null|zero
+en / ett|um / uma
+to|dois
+tre|três
+fire|quatro
+fem|cinco
+seks|seis
+sju|sete
+åtte|oito
+ni|nove
+ti|dez
+elleve|onze
+tolv|doze
+femten|quinze
+tjue|vinte
+tretti|trinta
+femti|cinquenta
+hundre|cem
+tusen|mil
+en million|um milhão
+# Tid
+tid|tempo
+dag|dia
+natt|noite (madrugada)
+morgen|manhã
+ettermiddag|tarde
+kveld|noite
+uke|semana
+måned|mês
+år|ano
+time|hora
+minutt|minuto
+sekund|segundo
+klokke|relógio
+helg|fim de semana
+mandag|segunda-feira
+tirsdag|terça-feira
+onsdag|quarta-feira
+torsdag|quinta-feira
+fredag|sexta-feira
+lørdag|sábado
+søndag|domingo
+vår (årstid)|primavera
+sommer|verão
+høst|outono
+vinter|inverno
+ferie|férias
+bursdag|aniversário
+jul|Natal
+påske|Páscoa
+# Mennesker
+menneske|ser humano
+person|pessoa
+mann|homem / marido
+kvinne|mulher
+barn|criança / filho
+gutt|menino
+jente|menina
+venn|amigo
+venninne|amiga
+familie|família
+mor|mãe
+far|pai
+mamma|mamãe
+pappa|papai
+foreldre|pais
+sønn|filho
+datter|filha
+bror|irmão
+søster|irmã
+bestemor|avó
+bestefar|avô
+kone|esposa
+kjæreste|namorado / namorada
+nabo|vizinho
+kollega|colega
+# Kropp
+kropp|corpo
+hode|cabeça
+øye|olho
+øre|orelha
+nese|nariz
+munn|boca
+hånd|mão
+arm|braço
+fot|pé
+bein|perna / osso
+hjerte|coração
+hår|cabelo
+mage|barriga
+rygg|costas
+# Hjemme
+hus|casa
+leilighet|apartamento
+rom|cômodo / quarto
+kjøkken|cozinha
+bad|banheiro
+stue|sala
+soverom|quarto (de dormir)
+dør|porta
+vindu|janela
+bord|mesa
+stol|cadeira
+seng|cama
+sofa|sofá
+gulv|chão
+vegg|parede
+tak|teto / telhado
+nøkkel|chave
+lys|luz
+telefon|telefone
+datamaskin|computador
+TV|televisão
+# Mat
+mat|comida
+vann|água
+kaffe|café
+te|chá
+melk|leite
+øl|cerveja
+vin|vinho
+brød|pão
+ost|queijo
+smør|manteiga
+egg|ovo
+kjøtt|carne
+fisk|peixe
+kylling|frango
+ris|arroz
+poteter|batatas
+grønnsaker|legumes
+frukt|fruta
+eple|maçã
+banan|banana
+sukker|açúcar
+salt|sal
+frokost|café da manhã
+lunsj|almoço
+middag|jantar
+kake|bolo
+is|sorvete / gelo
+# Steder
+by|cidade
+land|país
+sted|lugar
+gate|rua
+vei|estrada / caminho
+butikk|loja
+matbutikk|supermercado
+skole|escola
+jobb|trabalho / emprego
+kontor|escritório
+sykehus|hospital
+lege|médico
+kirke|igreja
+bank|banco
+restaurant|restaurante
+park|parque
+bil|carro
+buss|ônibus
+tog|trem
+flyplass|aeroporto
+båt|barco
+sykkel|bicicleta
+billett|passagem / ingresso
+# Annet
+penger|dinheiro
+ting|coisa
+navn|nome
+språk|idioma / língua
+ord|palavra
+spørsmål|pergunta
+svar|resposta
+problem|problema
+hjelp|ajuda
+vær|tempo (clima)
+sol|sol
+regn|chuva
+snø|neve
+hund|cachorro
+katt|gato
+hei|oi / olá
+takk|obrigado`;
+const groups=[];let cur=null,n=0;
+RAW.split("\n").forEach(l=>{l=l.trim();if(!l)return;
+  if(l.startsWith("#")){cur={name:l.slice(1).trim(),words:[]};groups.push(cur);return;}
+  const [no,pt]=l.split("|");cur.words.push({no,pt,n:++n});});
+let active="Alle";
+const chips=document.getElementById("chips"),list=document.getElementById("list"),
+  q=document.getElementById("q"),count=document.getElementById("count"),test=document.getElementById("test");
+["Alle",...groups.map(g=>g.name)].forEach(name=>{
+  const b=document.createElement("button");b.className="chip";b.textContent=name;
+  b.setAttribute("aria-pressed",name===active);
+  b.onclick=()=>{active=name;chips.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));render();};
+  chips.appendChild(b);});
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function render(){
+  const term=norm(q.value.trim());let html="",total=0;
+  groups.forEach(g=>{
+    if(active!=="Alle"&&g.name!==active)return;
+    const ws=g.words.filter(w=>!term||norm(w.no).includes(term)||norm(w.pt).includes(term));
+    if(!ws.length)return;total+=ws.length;
+    html+='<section><h2>'+esc(g.name)+'<span>'+ws.length+' ord</span></h2><ul>'+
+      ws.map(w=>'<li><span class="n">'+w.n+'</span><span class="no" lang="nb">'+esc(w.no)+'</span><span class="pt" lang="pt-BR">'+esc(w.pt)+'</span></li>').join("")+'</ul></section>';});
+  list.innerHTML=html||'<p class="empty">Ingen treff. Prøv et annet søkeord.</p>';
+  count.textContent="Viser "+total+" av "+n+" ord";}
+q.addEventListener("input",render);
+test.onclick=()=>{const on=test.getAttribute("aria-pressed")!=="true";
+  test.setAttribute("aria-pressed",on);document.body.classList.toggle("testing",on);
+  list.querySelectorAll(".pt.shown").forEach(e=>e.classList.remove("shown"));};
+list.addEventListener("click",e=>{const p=e.target.closest(".pt");if(p&&document.body.classList.contains("testing"))p.classList.toggle("shown");});
+render();
+</script>
+</body>
+</html>
