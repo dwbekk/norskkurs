@@ -41,11 +41,15 @@ a.card:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 .badge{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;
   color:var(--accent);line-height:1}
 .t{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.15rem;line-height:1.2}
+.d em{font-style:normal;font-weight:700;color:var(--ink)}
 .d{display:block;color:var(--muted);font-size:.95rem;margin-top:7px}
 .tags{display:block;color:var(--accent);font-size:.82rem;font-weight:700;margin-top:9px}
 .a1c{--accent:var(--fjord)}
 .a2c{--accent:var(--plum)}
 .enc{--accent:var(--mango)}
+.bac{--accent:#2C5AA0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bac{--accent:#8FB4EE}}
+:root[data-theme="dark"] .bac{--accent:#8FB4EE}
 .soonc{--accent:var(--line)}
 .soonc .badge,.soonc .t{color:var(--muted)}
 .soonc{opacity:.8}
@@ -74,7 +78,7 @@ footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--line);
 </style>
 </head>
 <body>
-<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="basico.html">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
 <div class="wrap">
 <header>
   <h1>Norueguês<small>Curso de norueguês para falantes de português — palavras, perguntas e exercícios</small></h1>
@@ -102,6 +106,15 @@ footer{margin-top:42px;padding-top:18px;border-top:1px solid var(--line);
     <span class="row1"><span class="badge">B2</span><span class="t">Em breve</span></span>
     <span class="d">Falar livremente sobre temas abstratos, nuances e situações formais.</span>
   </div>
+</div>
+
+<h2 class="sec">Para decorar</h2>
+<div class="cards">
+  <a class="card bac" href="basico.html">
+    <span class="row1"><span class="t">Números, cores e tempo</span></span>
+    <span class="d">O que não dá para adivinhar: contar até cem e além, as cores, as horas, os dias, os meses e expressões como <em>i går</em> e <em>i morgen</em>.</span>
+    <span class="tags">Com pronúncia escrita em português</span>
+  </a>
 </div>
 
 <h2 class="sec">Vocabulário</h2>

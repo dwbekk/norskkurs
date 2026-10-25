@@ -6,6 +6,7 @@ Sidene er statisk HTML uten byggesteg — de kan åpnes direkte eller legges ut 
 | Fil | Innhold |
 |---|---|
 | `index.html` | Forside med nivåoversikt (portugisisk grensesnitt) |
+| `basico.html` | Tall, farger og klokke med uttale skrevet for portugisisktalende |
 | `a1.html` | 104 spørsmål A1 med svar på begge språk og 10 ordstillingsoppgaver |
 | `a2.html` | 110 spørsmål A2 med svar på begge språk og 10 ordstillingsoppgaver |
 | `ordliste.html` | 500 norske hverdagsord med portugisisk oversettelse |
