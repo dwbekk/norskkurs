@@ -126,15 +126,18 @@ body.testing .pt.shown,body.testing .apt.shown{filter:none;background:transparen
   .levels{margin-left:0;width:100%}
 }
 .ptintro{color:var(--muted);max-width:60ch;margin:10px 0 0;font-size:.95rem;opacity:.9;padding-left:12px;border-left:3px solid var(--line)}
+.tappable{cursor:pointer}
+.tappable:active{opacity:.6}
 </style>
+<link rel="stylesheet" href="audio.css">
 </head>
 <body class="answers">
-<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="basico.html">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html" aria-current="page">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="treinar.html">Treinar</a><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="basico.html">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html" aria-current="page">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
 <div class="wrap">
 <header>
   <h1>Spørsmål<small>Norsk A2 med portugisisk og svar</small></h1>
   <p id="intro">110 spørsmål på neste nivå — fortid, framtid, meninger og praktiske situasjoner. Hvert spørsmål har oversettelse og et naturlig svar på begge språk. Trykk «Skjul svar» for å øve uten fasit, og «Test meg» for å skjule portugisisken.</p>
-  <p class="ptintro" id="intropt" lang="pt-BR">110 perguntas do próximo nível — passado, futuro, opiniões e situações práticas. Cada pergunta tem tradução e uma resposta natural nos dois idiomas. Toque em «Skjul svar» para treinar sem o gabarito e em «Test meg» para esconder o português.</p>
+  <p class="ptintro" id="intropt" lang="pt-BR">110 perguntas do próximo nível — passado, futuro, opiniões e situações práticas, com resposta nos dois idiomas. Toque no alto-falante para ouvir em norueguês, e no texto em português para ouvi-lo. «Skjul svar» treina sem o gabarito, «Test meg» esconde o português.</p>
 </header>
 <div class="bar">
   <div class="modes" role="tablist" aria-label="Velg visning">
@@ -149,6 +152,10 @@ body.testing .pt.shown,body.testing .apt.shown{filter:none;background:transparen
   </div>
   <div class="chips" id="chips"></div>
   <div class="count" id="count"></div>
+  <div class="audiobar" id="audiobar">
+    <button class="abtn" id="a-mute" type="button" aria-pressed="true">&#128266; <span>Áudio ligado</span></button>
+    <button class="abtn" id="a-slow" type="button" aria-pressed="false">&#128034; Devagar</button>
+  </div>
   </div>
 </div>
 <main id="list"></main>
@@ -314,5 +321,7 @@ mList.onclick=()=>setView("list");
 mDrill.onclick=()=>setView("drill");
 build();
 </script>
+<script src="tts.js"></script>
+<script src="audio-enhance.js"></script>
 </body>
 </html>

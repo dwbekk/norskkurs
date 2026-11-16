@@ -87,14 +87,17 @@ body.testing .pt.shown{filter:none;background:transparent}
   .sitenav .inner{flex-wrap:wrap;gap:10px}
   .levels{margin-left:0;width:100%}
 }
+.tappable{cursor:pointer}
+.tappable:active{opacity:.6}
 </style>
+<link rel="stylesheet" href="audio.css">
 </head>
 <body>
-<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="basico.html" aria-current="page">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="treinar.html">Treinar</a><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="basico.html" aria-current="page">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
 <div class="wrap">
 <header>
   <h1>Básico<small>Números, cores e tempo — com pronúncia</small></h1>
-  <p id="intro">O que não dá para adivinhar e precisa ser decorado. Cada palavra vem com a pronúncia entre colchetes, escrita como se lê em português.</p>
+  <p id="intro">O que não dá para adivinhar e precisa ser decorado. Cada palavra vem com a pronúncia entre colchetes e com som: toque no alto-falante para ouvir em norueguês.</p>
   <p class="ptintro" lang="nb">Tall, farger og klokke med uttale skrevet for portugisisktalende. «Me teste» skjuler portugisisken.</p>
 </header>
 <div class="bar">
@@ -108,6 +111,10 @@ body.testing .pt.shown{filter:none;background:transparent}
     <button class="toggle" id="test" aria-pressed="false">Me teste</button>
   </div>
   <div class="count" id="count"></div>
+  <div class="audiobar" id="audiobar">
+    <button class="abtn" id="a-mute" type="button" aria-pressed="true">&#128266; <span>Áudio ligado</span></button>
+    <button class="abtn" id="a-slow" type="button" aria-pressed="false">&#128034; Devagar</button>
+  </div>
 </div>
 <main id="list"></main>
 </div>
@@ -187,5 +194,7 @@ list.addEventListener("click",e=>{const p=e.target.closest(".pt");
 const h=(location.hash||"").slice(1).toUpperCase();
 setMode(SETS[h]?h:"NUM");
 </script>
+<script src="tts.js"></script>
+<script src="audio-enhance.js"></script>
 </body>
 </html>

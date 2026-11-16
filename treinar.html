@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treinar — exercícios de norueguês</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="audio.css">
+<style>
+:root{
+  --bg:#F2EFE9; --surface:#FCFBF8; --ink:#1E2321; --muted:#6B7470;
+  --fjord:#1F6F78; --sun:#E3B23C; --line:#D8D2C7;
+  --fjord-soft:#D9EAEA; --ok:#1C7A4F; --ok-soft:#D6F0E2; --no:#B4472F; --no-soft:#F8DFD9;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#13181A; --surface:#1B2224; --ink:#E8EEEC; --muted:#93A09C;
+  --fjord:#5FB6BE; --sun:#E8C15E; --line:#2D3739;
+  --fjord-soft:#1C3539; --ok:#5FD3A0; --ok-soft:#14382A; --no:#F0866B; --no-soft:#3A1F1A;
+}}
+:root[data-theme="dark"]{
+  --bg:#13181A; --surface:#1B2224; --ink:#E8EEEC; --muted:#93A09C;
+  --fjord:#5FB6BE; --sun:#E8C15E; --line:#2D3739;
+  --fjord-soft:#1C3539; --ok:#5FD3A0; --ok-soft:#14382A; --no:#F0866B; --no-soft:#3A1F1A;
+}
+*{box-sizing:border-box}
+html,body{overscroll-behavior-y:contain}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45;
+  -webkit-text-size-adjust:100%}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px calc(28px + env(safe-area-inset-bottom))}
+h1{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:clamp(2.6rem,12vw,4.4rem);line-height:.92;margin:0;letter-spacing:-.03em;color:var(--fjord)}
+h1 small{display:block;font-size:.26em;font-weight:500;color:var(--ink);letter-spacing:0;margin-top:.6em;line-height:1.3}
+header{padding:28px 0 4px}
+header p{color:var(--muted);margin:14px 0 0}
+h2.sec{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;
+  margin:26px 0 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+/* ---------- strek med dager på rad ---------- */
+.stats{display:flex;gap:10px;margin-top:18px}
+.stat{flex:1;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;
+  padding:12px 14px;text-align:center}
+.stat b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.7rem;color:var(--fjord);line-height:1}
+.stat span{display:block;font-size:.78rem;color:var(--muted);margin-top:4px}
+/* ---------- valg ---------- */
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px}
+.opt{font:inherit;text-align:left;padding:13px 15px;border-radius:13px;min-height:52px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;
+  display:flex;flex-direction:column;justify-content:center;-webkit-tap-highlight-color:transparent}
+.opt b{font-weight:700;font-size:1rem}
+.opt i{font-style:normal;font-size:.8rem;color:var(--muted);margin-top:2px}
+.opt[aria-pressed=true]{border-color:var(--fjord);background:var(--fjord-soft)}
+.opt:focus-visible,.big:focus-visible,.ghost:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.big{width:100%;font:inherit;font-weight:800;font-size:1.05rem;padding:16px;border-radius:14px;
+  border:none;background:var(--fjord);color:var(--surface);cursor:pointer;margin-top:20px;
+  font-family:"Bricolage Grotesque",sans-serif;letter-spacing:.01em}
+.big[disabled]{opacity:.45;cursor:default}
+.ghost{font:inherit;font-weight:700;padding:12px 18px;border-radius:12px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+/* ---------- spilleflate ---------- */
+#game{padding-top:14px}
+.hud{display:flex;align-items:center;gap:12px;padding:12px 0 6px}
+.quit{flex:none;border:none;background:none;color:var(--muted);font-size:1.6rem;line-height:1;
+  cursor:pointer;padding:2px 6px}
+.track{flex:1;height:12px;border-radius:99px;background:var(--line);overflow:hidden}
+.fill{height:100%;width:0;border-radius:99px;background:var(--fjord);transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.hud .n{flex:none;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;
+  padding:20px 18px;margin-top:8px}
+.kind{font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ask{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.65rem;
+  line-height:1.15;margin:8px 0 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hint{color:var(--muted);font-size:.92rem;margin:4px 0 0}
+.card .opts{margin-top:18px}
+/* lytteoppgave */
+.bigsay{width:100%;min-height:104px;border-radius:16px;border:2px dashed var(--line);
+  background:var(--fjord-soft);color:var(--fjord);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;gap:12px;margin-top:14px;font:inherit;font-weight:800;font-size:1.05rem;
+  font-family:"Bricolage Grotesque",sans-serif}
+.bigsay svg{width:38px;height:38px;fill:currentColor;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;fill-rule:evenodd}
+.bigsay svg .w1,.bigsay svg .w2{fill:none}
+.bigsay:active{transform:scale(.98)}
+/* skrive */
+.typebox{width:100%;font:inherit;font-size:1.25rem;font-weight:700;padding:15px;margin-top:16px;
+  border-radius:13px;border:2px solid var(--line);background:var(--bg);color:var(--ink);text-align:center}
+.typebox:focus{outline:none;border-color:var(--fjord)}
+.kb{display:flex;gap:7px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.kb button{font:inherit;font-size:1.15rem;font-weight:700;width:46px;height:46px;border-radius:11px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+/* ordstilling */
+.slotline{display:flex;flex-wrap:wrap;gap:7px;align-items:center;min-height:62px;padding:10px;
+  margin-top:14px;border:2px dashed var(--line);border-radius:14px;background:var(--bg)}
+.bankline{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.word{font:inherit;font-weight:700;font-size:1.02rem;padding:10px 14px;border-radius:11px;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:44px}
+.slotline .word{border-color:var(--fjord);background:var(--fjord-soft)}
+.word.gone{visibility:hidden}
+.endmark{font-weight:800;color:var(--muted);font-size:1.1rem}
+/* paring */
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.pair{font:inherit;padding:13px 10px;border-radius:12px;min-height:56px;font-size:.97rem;
+  border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.25}
+.pair.sel{border-color:var(--fjord);background:var(--fjord-soft);font-weight:700}
+.pair.got{border-color:var(--ok);background:var(--ok-soft);color:var(--muted);
+  pointer-events:none;opacity:.55}
+.pair.bad{animation:shake .32s}
+/* fasit */
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--no);background:var(--no-soft)}
+.fb{margin-top:16px;border-radius:14px;padding:14px 16px;display:none}
+.fb.on{display:block;animation:pop .22s}
+.fb.ok{background:var(--ok-soft);border:1.5px solid var(--ok)}
+.fb.no{background:var(--no-soft);border:1.5px solid var(--no)}
+.fb .v{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.1rem;
+  display:flex;align-items:center;gap:8px}
+.fb.ok .v{color:var(--ok)}
+.fb.no .v{color:var(--no)}
+.fb .sol{margin-top:7px;font-weight:700;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.fb .solpt{color:var(--muted);font-size:.92rem;margin-top:3px}
+.shake{animation:shake .32s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}
+  45%{transform:translateX(6px)}70%{transform:translateX(-3px)}}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+/* resultat */
+.ring{display:block;margin:10px auto 4px;width:150px;height:150px}
+.ring circle{fill:none;stroke-width:13;stroke-linecap:round}
+.ring .bgc{stroke:var(--line)}
+.ring .fgc{stroke:var(--fjord);transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)}
+.ring text{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;fill:var(--ink)}
+.bigmsg{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.7rem;
+  text-align:center;margin:6px 0 2px}
+.submsg{text-align:center;color:var(--muted);margin:0 0 6px}
+.missed{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.missed li{list-style:none;padding:9px 0;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.missed ul{padding:0;margin:8px 0 0}
+.missed b{font-size:1.02rem}
+.missed i{font-style:normal;color:var(--muted);font-size:.9rem;width:100%}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* --- felles toppmeny --- */
+.sitenav{border-bottom:1px solid var(--line);background:var(--bg)}
+.sitenav .inner{max-width:620px;margin:0 auto;padding:12px 16px;
+  display:flex;align-items:center;gap:14px}
+.brand{font-family:"Bricolage Grotesque","Arial Narrow",sans-serif;font-weight:800;
+  font-size:1.05rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.levels{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.levels::-webkit-scrollbar{display:none}
+.lvl{font:inherit;font-weight:700;font-size:.92rem;padding:6px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  text-decoration:none;white-space:nowrap}
+.lvl[aria-current=page]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lvl.soon{color:var(--muted);opacity:.65;pointer-events:none}
+.lvl:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+@media (max-width:520px){
+  .sitenav .inner{flex-wrap:wrap;gap:10px}
+  .levels{margin-left:0;width:100%}
+}
+.tappable{cursor:pointer}
+</style>
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="treinar.html" aria-current="page">Treinar</a><a class="lvl" href="ordliste.html">Palavras</a><a class="lvl" href="basico.html">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<div class="wrap">
+
+<section id="setup">
+  <header>
+    <h1>Treinar<small>Exercícios curtos, com som — feitos para o celular</small></h1>
+    <p>Dez perguntas por rodada. Escolha o conteúdo e comece. Os erros voltam no fim.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b id="s-streak">0</b><span>dias seguidos</span></div>
+    <div class="stat"><b id="s-total">0</b><span>respostas certas</span></div>
+    <div class="stat"><b id="s-best">0</b><span>melhor sequência</span></div>
+  </div>
+
+  <h2 class="sec">O que treinar</h2>
+  <div class="opts" id="pick-src"></div>
+
+  <h2 class="sec">Tipo de exercício</h2>
+  <div class="opts" id="pick-kind"></div>
+
+  <div class="audiobar" id="audiobar" style="margin-top:18px">
+    <button class="abtn" id="a-mute" type="button" aria-pressed="true">&#128266; <span>Áudio ligado</span></button>
+    <button class="abtn" id="a-slow" type="button" aria-pressed="false">&#128034; Devagar</button>
+  </div>
+
+  <button class="big" id="start">Começar</button>
+</section>
+
+<section id="game" hidden>
+  <div class="hud">
+    <button class="quit" id="quit" type="button" aria-label="Sair">&times;</button>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="n" id="hudn">0/10</div>
+  </div>
+  <div class="card" id="card"></div>
+  <div class="fb" id="fb"></div>
+  <button class="big" id="next" hidden>Continuar</button>
+</section>
+
+<section id="done" hidden></section>
+
+</div>
+<script src="tts.js"></script>
+<script src="data.js"></script>
+<script>
+/* =======================================================================
+   Øvingsmotor. Bygger oppgaver av materialet på sidene, i runder på ti.
+   ======================================================================= */
+(function(){
+"use strict";
+var D = window.DATA || {};
+var $ = function(id){ return document.getElementById(id); };
+
+/* ---------- lagring ---------- */
+var ST = {streak:0,last:"",total:0,best:0,src:"a1",kind:"mix"};
+try{ var raw=localStorage.getItem("nk_prog"); if(raw) ST=Object.assign(ST,JSON.parse(raw)); }catch(e){}
+function save(){ try{ localStorage.setItem("nk_prog",JSON.stringify(ST)); }catch(e){} }
+function today(){ return new Date().toISOString().slice(0,10); }
+function bumpDay(){
+  var t=today();
+  if(ST.last===t) return;
+  var y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  ST.streak = (ST.last===y) ? ST.streak+1 : 1;
+  ST.last=t; save();
+}
+
+/* ---------- små lyder ---------- */
+var AC=null;
+function beep(good){
+  if(window.TTS && window.TTS.isMuted()) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    var o=AC.createOscillator(), g=AC.createGain();
+    o.connect(g); g.connect(AC.destination);
+    o.type="sine";
+    var t=AC.currentTime;
+    if(good){ o.frequency.setValueAtTime(660,t); o.frequency.setValueAtTime(990,t+.09); }
+    else { o.frequency.setValueAtTime(300,t); o.frequency.setValueAtTime(190,t+.11); }
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.exponentialRampToValueAtTime(.16,t+.02);
+    g.gain.exponentialRampToValueAtTime(.0001,t+.3);
+    o.start(t); o.stop(t+.32);
+  }catch(e){}
+}
+
+/* ---------- kildene ---------- */
+var SRC = [
+  {id:"a1",   t:"A1",            d:"perguntas e respostas"},
+  {id:"a2",   t:"A2",            d:"perguntas e respostas"},
+  {id:"ord",  t:"Palavras",      d:"500 do dia a dia"},
+  {id:"tall", t:"Números",       d:"contar e ordinais"},
+  {id:"farger",t:"Cores",        d:"as cores"},
+  {id:"tid",  t:"Tempo",         d:"horas, dias, meses"},
+  {id:"tudo", t:"Tudo misturado",d:"de todos os níveis"}
+];
+var KIND = [
+  {id:"mix",    t:"Misturado",       d:"todos os tipos"},
+  {id:"pt2no",  t:"Do português",    d:"escolher em norueguês"},
+  {id:"no2pt",  t:"Do norueguês",    d:"escolher em português"},
+  {id:"listen", t:"Ouvir",           d:"só com som"},
+  {id:"match",  t:"Ligar os pares",  d:"quatro de cada vez"},
+  {id:"order",  t:"Ordem das palavras",d:"montar a frase"},
+  {id:"type",   t:"Escrever",        d:"digitar em norueguês"}
+];
+
+function pool(id){
+  var out=[];
+  function add(list,a,b,hint){
+    (list||[]).forEach(function(r){
+      if(!r[a]||!r[b]) return;
+      out.push({no:r[a],pt:r[b],sec:r.sec||"",hint:hint?r[hint]:""});
+    });
+  }
+  if(id==="a1"||id==="tudo"){ add(D.a1,"no","pt"); add(D.a1,"ano","apt"); }
+  if(id==="a2"||id==="tudo"){ add(D.a2,"no","pt"); add(D.a2,"ano","apt"); }
+  if(id==="ord"||id==="tudo") add(D.ord,"no","pt");
+  if(id==="tall"||id==="tudo") add(D.tall,"no","pt","uu");
+  if(id==="farger"||id==="tudo") add(D.farger,"no","pt","uu");
+  if(id==="tid"||id==="tudo") add(D.tid,"no","pt","uu");
+  /* fjern dubletter */
+  var seen={},u=[];
+  out.forEach(function(r){ var k=r.no+"|"+r.pt; if(!seen[k]){seen[k]=1;u.push(r);} });
+  return u;
+}
+function sentences(id){
+  var p=pool(id).filter(function(r){
+    var w=r.no.replace(/[?.!,]/g,"").trim().split(/\s+/);
+    return w.length>=3 && w.length<=8;
+  });
+  return p;
+}
+
+/* ---------- hjelpere ---------- */
+function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+function norm(s){ return String(s||"").toLowerCase().replace(/[.,!?;:«»"']/g,"").replace(/\s+/g," ").trim(); }
+function bare(s){ return norm(s).replace(/æ/g,"ae").replace(/ø/g,"o").replace(/å/g,"a")
+  .normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function sayBtn(text,lang){
+  if(!window.TTS) return "";
+  var b=window.TTS.button(text,lang||"nb");
+  return b.outerHTML;
+}
+
+/* distraktorer: helst fra samme tema, så valgene betyr noe */
+function distract(all,item,field,n){
+  var same=all.filter(function(r){ return r.sec===item.sec && r[field]!==item[field]; });
+  var rest=all.filter(function(r){ return r.sec!==item.sec && r[field]!==item[field]; });
+  var out=[],seen={}; seen[norm(item[field])]=1;
+  shuffle(same).concat(shuffle(rest)).some(function(r){
+    var k=norm(r[field]);
+    if(seen[k]) return false;
+    seen[k]=1; out.push(r);
+    return out.length>=n;
+  });
+  return out;
+}
+
+/* ---------- oppgavebygging ---------- */
+function build(kind,srcId,n){
+  var all=pool(srcId), qs=[], tries=0;
+  var kinds = kind==="mix" ? ["pt2no","no2pt","listen","match","order","type"] : [kind];
+  var sent=sentences(srcId);
+  while(qs.length<n && tries<n*25){
+    tries++;
+    var k = kinds[qs.length % kinds.length];
+    if(kind==="mix") k = pick(kinds);
+    var q=null;
+    if(k==="order"){ if(sent.length<4) continue; q=mkOrder(sent); }
+    else if(k==="match"){ if(all.length<8) continue; q=mkMatch(all); }
+    else if(k==="type"){ q=mkType(all); }
+    else if(k==="listen"){ q=mkChoice(all,"listen"); }
+    else q=mkChoice(all,k);
+    if(!q) continue;
+    if(q.key && qs.some(function(x){return x.key===q.key;})) continue;
+    qs.push(q);
+  }
+  /* Finnes det for lite av én type i denne kilden, fylles resten med flervalg
+     i stedet for at runden blir kortere eller avbrytes. */
+  var guard=0;
+  while(qs.length<n && all.length>=4 && guard++<n*20){
+    var f=mkChoice(all, Math.random()<.5 ? "pt2no" : "no2pt");
+    if(f && !qs.some(function(x){return x.key===f.key;})) qs.push(f);
+  }
+  return qs;
+}
+function mkChoice(all,k){
+  var it=pick(all);
+  var field = (k==="no2pt") ? "pt" : "no";
+  var ds=distract(all,it,field,3);
+  if(ds.length<3) return null;
+  return {kind:k,item:it,field:field,options:shuffle([it].concat(ds)),key:k+it.no};
+}
+function mkType(all){
+  /* Korte svar er greie å skrive; lange setninger blir straffearbeid. */
+  var cands=all.filter(function(r){
+    var t=r.no.replace(/[?.!]+$/,"").trim();
+    return t.length<=20 && t.split(/\s+/).length<=3;
+  });
+  if(!cands.length) return null;
+  var it=pick(cands);
+  return {kind:"type",item:Object.assign({},it,{no:it.no.replace(/[?.!]+$/,"").trim()}),key:"type"+it.no};
+}
+function mkMatch(all){
+  var four=[],seen={};
+  shuffle(all).some(function(r){
+    if(seen[norm(r.pt)]||seen[norm(r.no)]) return false;
+    seen[norm(r.pt)]=1; seen[norm(r.no)]=1; four.push(r);
+    return four.length>=4;
+  });
+  if(four.length<4) return null;
+  return {kind:"match",four:four,key:"match"+four[0].no};
+}
+function mkOrder(sent){
+  var it=pick(sent);
+  var m=it.no.match(/[?.!]$/);
+  var end=m?m[0]:".";
+  var words=it.no.replace(/[?.!]$/,"").trim().split(/\s+/);
+  if(words.length<3) return null;
+  return {kind:"order",item:it,words:words,end:end,key:"order"+it.no};
+}
+
+/* ---------- økt ---------- */
+var S={qs:[],i:0,right:0,wrong:[],answered:false,run:0};
+
+function startSession(){
+  var qs=build(ST.kind,ST.src,10);
+  if(qs.length<4){
+    $("pick-kind").insertAdjacentHTML("afterend",
+      '<p class="hint" style="color:var(--no)">Não há material suficiente para isso aqui. Escolha outro conteúdo ou outro tipo.</p>');
+    return;
+  }
+  S={qs:qs,i:0,right:0,wrong:[],answered:false,run:0};
+  $("setup").hidden=true; $("done").hidden=true; $("game").hidden=false;
+  window.scrollTo(0,0);
+  show();
+}
+function hud(){
+  $("fill").style.width = (S.i/S.qs.length*100)+"%";
+  $("hudn").textContent = S.i+"/"+S.qs.length;
+}
+function show(){
+  S.answered=false;
+  $("fb").className="fb"; $("fb").innerHTML="";
+  $("next").hidden=true;
+  hud();
+  var q=S.qs[S.i];
+  var c=$("card");
+  if(q.kind==="pt2no") c.innerHTML=viewChoice(q,"Como se diz em norueguês?",q.item.pt,"pt");
+  else if(q.kind==="no2pt") c.innerHTML=viewChoice(q,"O que significa?",q.item.no,"nb");
+  else if(q.kind==="listen") c.innerHTML=viewListen(q);
+  else if(q.kind==="match") c.innerHTML=viewMatch(q);
+  else if(q.kind==="order") c.innerHTML=viewOrder(q);
+  else c.innerHTML=viewType(q);
+  wire(q);
+}
+
+function viewChoice(q,title,text,lang){
+  var h='<div class="kind">'+title+'</div><div class="ask" lang="'+(lang==="nb"?"nb":"pt-BR")+'">'+
+    esc(text)+(lang==="nb"?sayBtn(text,"nb"):"")+'</div>';
+  if(lang==="nb"&&q.item.hint) h+='<p class="hint">['+esc(q.item.hint)+']</p>';
+  h+='<div class="opts">';
+  q.options.forEach(function(o,ix){
+    var val=o[q.field];
+    h+='<button class="opt" type="button" data-ix="'+ix+'"><b lang="'+
+      (q.field==="no"?"nb":"pt-BR")+'">'+esc(val)+'</b></button>';
+  });
+  return h+'</div>';
+}
+function viewListen(q){
+  var h='<div class="kind">Ouça e escolha</div>'+
+    '<button class="bigsay" type="button" id="bs">'+(window.TTS?window.TTS.icon:"")+' Ouvir</button>'+
+    '<div class="opts">';
+  q.options.forEach(function(o,ix){
+    h+='<button class="opt" type="button" data-ix="'+ix+'"><b lang="nb">'+esc(o.no)+'</b>'+
+       '<i>'+esc(o.pt)+'</i></button>';
+  });
+  return h+'</div>';
+}
+function viewType(q){
+  return '<div class="kind">Escreva em norueguês</div>'+
+    '<div class="ask" lang="pt-BR">'+esc(q.item.pt)+'</div>'+
+    (q.item.hint?'<p class="hint">['+esc(q.item.hint)+']</p>':'')+
+    '<input class="typebox" id="tin" autocomplete="off" autocorrect="off" autocapitalize="none" '+
+    'spellcheck="false" inputmode="text" placeholder="…" aria-label="Resposta">'+
+    '<div class="kb"><button type="button" data-c="æ">æ</button>'+
+    '<button type="button" data-c="ø">ø</button><button type="button" data-c="å">å</button></div>';
+}
+function viewMatch(q){
+  var left=shuffle(q.four), right=shuffle(q.four);
+  q._left=left; q._right=right; q._got=0; q._sel=null;
+  var h='<div class="kind">Ligue os pares</div><p class="hint">Toque em um norueguês e depois no português.</p><div class="pairs">';
+  for(var i=0;i<4;i++){
+    h+='<button class="pair" type="button" data-side="L" data-k="'+esc(left[i].no)+'" lang="nb">'+esc(left[i].no)+'</button>';
+    h+='<button class="pair" type="button" data-side="R" data-k="'+esc(right[i].no)+'" lang="pt-BR">'+esc(right[i].pt)+'</button>';
+  }
+  return h+'</div>';
+}
+function viewOrder(q){
+  q._placed=[]; q._bank=shuffle(q.words.map(function(w,i){return i;}));
+  var h='<div class="kind">Monte a frase</div><div class="ask" lang="pt-BR">'+esc(q.item.pt)+'</div>'+
+    '<div class="slotline" id="slot"><span class="endmark">'+esc(q.end)+'</span></div>'+
+    '<div class="bankline" id="bank"></div>';
+  return h;
+}
+function drawOrder(q){
+  var slot=$("slot"), bank=$("bank");
+  slot.innerHTML="";
+  q._placed.forEach(function(i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="word"; b.dataset.i=i; b.dataset.where="slot";
+    b.lang="nb"; b.textContent=q.words[i];
+    slot.appendChild(b);
+  });
+  var e=document.createElement("span"); e.className="endmark"; e.textContent=q.end;
+  slot.appendChild(e);
+  bank.innerHTML="";
+  q._bank.forEach(function(i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="word"; b.dataset.i=i; b.dataset.where="bank";
+    b.lang="nb"; b.textContent=q.words[i];
+    bank.appendChild(b);
+  });
+  $("next").hidden = q._bank.length>0;
+  $("next").textContent = "Verificar";
+}
+
+/* ---------- hendelser ---------- */
+function wire(q){
+  var c=$("card");
+  if(q.kind==="listen"){
+    var say=function(){ if(window.TTS) window.TTS.speak(q.item.no,"nb"); };
+    $("bs").onclick=say;
+    setTimeout(say,260);
+  }
+  if(q.kind==="pt2no"||q.kind==="no2pt"||q.kind==="listen"){
+    c.querySelectorAll(".opt").forEach(function(b){
+      b.onclick=function(){
+        if(S.answered) return;
+        var o=q.options[+b.dataset.ix];
+        var ok = norm(o[q.field||"no"]) === norm(q.item[q.field||"no"]);
+        c.querySelectorAll(".opt").forEach(function(x){
+          var oo=q.options[+x.dataset.ix];
+          if(norm(oo[q.field||"no"])===norm(q.item[q.field||"no"])) x.classList.add("right");
+          else if(x===b) x.classList.add("wrong");
+        });
+        answer(ok,q);
+      };
+    });
+  }
+  if(q.kind==="type"){
+    var inp=$("tin");
+    c.querySelectorAll(".kb button").forEach(function(k){
+      k.onclick=function(){ inp.value+=k.dataset.c; inp.focus(); };
+    });
+    inp.addEventListener("keydown",function(e){ if(e.key==="Enter") checkType(q); });
+    $("next").hidden=false; $("next").textContent="Verificar";
+    $("next").onclick=function(){ if(S.answered) advance(); else checkType(q); };
+    setTimeout(function(){ inp.focus(); },120);
+  }
+  if(q.kind==="match"){
+    c.querySelectorAll(".pair").forEach(function(b){
+      b.onclick=function(){
+        if(b.classList.contains("got")) return;
+        if(!q._sel){ clearSel(c); b.classList.add("sel"); q._sel=b; return; }
+        if(q._sel===b){ b.classList.remove("sel"); q._sel=null; return; }
+        if(q._sel.dataset.side===b.dataset.side){ clearSel(c); b.classList.add("sel"); q._sel=b; return; }
+        if(q._sel.dataset.k===b.dataset.k){
+          b.classList.add("got"); q._sel.classList.add("got"); q._sel.classList.remove("sel");
+          if(window.TTS) window.TTS.speak(b.dataset.k,"nb");
+          q._got++; q._sel=null;
+          if(q._got===4){ answer(true,q); }
+        } else {
+          var a=q._sel; a.classList.remove("sel");
+          b.classList.add("bad"); a.classList.add("bad");
+          setTimeout(function(){ b.classList.remove("bad"); a.classList.remove("bad"); },340);
+          q._sel=null; q._miss=(q._miss||0)+1;
+          beep(false);
+          if(q._miss>=3){ revealMatch(c,q); answer(false,q); }
+        }
+      };
+    });
+  }
+  if(q.kind==="order"){
+    drawOrder(q);
+    c.onclick=function(ev){
+      var w=ev.target.closest(".word");
+      if(!w||S.answered) return;
+      var i=+w.dataset.i;
+      if(w.dataset.where==="bank"){ q._bank=q._bank.filter(function(x){return x!==i;}); q._placed.push(i); }
+      else { q._placed=q._placed.filter(function(x){return x!==i;}); q._bank.push(i); }
+      if(window.TTS) window.TTS.speak(q.words[i],"nb");
+      drawOrder(q);
+    };
+    $("next").onclick=function(){
+      if(S.answered){ advance(); return; }
+      var made=q._placed.map(function(i){return q.words[i];}).join(" ");
+      answer(norm(made)===norm(q.words.join(" ")),q);
+    };
+  }
+}
+function clearSel(c){ c.querySelectorAll(".pair.sel").forEach(function(x){x.classList.remove("sel");}); }
+function revealMatch(c,q){ c.querySelectorAll(".pair").forEach(function(x){x.classList.add("got");}); }
+function checkType(q){
+  var v=$("tin").value;
+  var ok = norm(v)===norm(q.item.no);
+  var close = !ok && bare(v)===bare(q.item.no) && v.trim().length>0;
+  if(close){
+    $("fb").className="fb on no";
+    $("fb").innerHTML='<div class="v">Quase! Falta um acento.</div>'+
+      '<div class="sol" lang="nb">'+esc(q.item.no)+sayBtn(q.item.no,"nb")+'</div>';
+    $("tin").value=""; $("tin").focus();
+    beep(false);
+    return;
+  }
+  answer(ok,q);
+}
+
+function answer(ok,q){
+  if(S.answered) return;
+  S.answered=true;
+  /* Paringsoppgaven har fire fasitsvar, ikke ett. */
+  var right = q.kind==="order" ? q.words.join(" ")+q.end : (q.item ? q.item.no : "");
+  var rpt   = (q.kind==="match" || !q.item) ? "" : q.item.pt;
+  if(ok){
+    S.right++; S.run++; if(S.run>ST.best){ ST.best=S.run; }
+    ST.total++; save(); beep(true);
+    $("fb").className="fb on ok";
+    $("fb").innerHTML='<div class="v">'+pick(["Certo!","Isso!","Muito bem!","Perfeito!","Boa!"])+'</div>'+
+      (q.kind==="match"?"":'<div class="sol" lang="nb">'+esc(right)+sayBtn(right,"nb")+'</div>');
+    if(q.kind!=="listen"&&q.kind!=="match"&&window.TTS) window.TTS.speak(right,"nb");
+    setTimeout(advance,1150);
+  } else {
+    S.run=0; save(); beep(false);
+    if(q.kind!=="match") S.wrong.push(q);
+    $("card").classList.add("shake");
+    setTimeout(function(){ $("card").classList.remove("shake"); },340);
+    $("fb").className="fb on no";
+    $("fb").innerHTML='<div class="v">'+(q.kind==="match"?"Veja os pares certos":"A resposta certa é")+'</div>'+
+      (right?'<div class="sol" lang="nb">'+esc(right)+sayBtn(right,"nb")+'</div>':'')+
+      (rpt?'<div class="solpt" lang="pt-BR">'+esc(rpt)+'</div>':'');
+    if(right && window.TTS) window.TTS.speak(right,"nb");
+    $("next").hidden=false; $("next").textContent="Continuar";
+    $("next").onclick=advance;
+  }
+  if(ok&&q.kind==="match"){ setTimeout(advance,900); }
+}
+function advance(){
+  S.i++;
+  if(S.i>=S.qs.length){ finish(); return; }
+  show();
+}
+
+function finish(){
+  bumpDay();
+  $("fill").style.width="100%"; $("hudn").textContent=S.qs.length+"/"+S.qs.length;
+  $("game").hidden=true; $("done").hidden=false;
+  window.scrollTo(0,0);
+  var pct=Math.round(S.right/S.qs.length*100);
+  var circ=2*Math.PI*62;
+  var msg = pct===100?"Perfeito!" : pct>=80?"Muito bom!" : pct>=50?"Bom trabalho." : "Continue treinando.";
+  var h='<header style="padding:22px 0 0"><div class="bigmsg">'+msg+'</div></header>'+
+    '<svg class="ring" viewBox="0 0 150 150" aria-hidden="true">'+
+    '<circle class="bgc" cx="75" cy="75" r="62"></circle>'+
+    '<circle class="fgc" cx="75" cy="75" r="62" transform="rotate(-90 75 75)" '+
+    'stroke-dasharray="'+circ+'" stroke-dashoffset="'+circ+'" id="ringfg"></circle>'+
+    '<text x="75" y="70" text-anchor="middle" font-size="32">'+S.right+'/'+S.qs.length+'</text>'+
+    '<text x="75" y="96" text-anchor="middle" font-size="14" fill="currentColor" opacity=".6">certas</text>'+
+    '</svg>'+
+    '<p class="submsg">'+ST.streak+' '+(ST.streak===1?"dia seguido":"dias seguidos")+
+    ' · '+ST.total+' respostas certas no total</p>';
+  if(S.wrong.length){
+    h+='<div class="missed"><strong>Para rever</strong><ul>';
+    S.wrong.forEach(function(q){
+      if(!q.item) return;
+      var n = q.kind==="order" ? q.words.join(" ")+q.end : q.item.no;
+      h+='<li><b lang="nb">'+esc(n)+'</b>'+sayBtn(n,"nb")+'<i lang="pt-BR">'+esc(q.item.pt)+'</i></li>';
+    });
+    h+='</ul></div>';
+    h+='<button class="big" id="again">Treinar os erros ('+S.wrong.length+')</button>';
+  }
+  h+='<button class="'+(S.wrong.length?"ghost":"big")+'" id="newround" style="'+
+     (S.wrong.length?"width:100%;margin-top:10px;padding:15px":"")+'">Nova rodada</button>'+
+     '<button class="ghost" id="back" style="width:100%;margin-top:10px;padding:15px">Mudar o que treinar</button>';
+  $("done").innerHTML=h;
+  setTimeout(function(){
+    var r=$("ringfg"); if(r) r.style.strokeDashoffset = circ*(1-S.right/S.qs.length);
+  },120);
+  if($("again")) $("again").onclick=function(){
+    var w=S.wrong.slice();
+    S={qs:w,i:0,right:0,wrong:[],answered:false,run:S.run};
+    w.forEach(function(q){ if(q.kind==="match"){q._got=0;q._sel=null;q._miss=0;} });
+    $("done").hidden=true; $("game").hidden=false; window.scrollTo(0,0); show();
+  };
+  $("newround").onclick=startSession;
+  $("back").onclick=function(){ $("done").hidden=true; $("setup").hidden=false; window.scrollTo(0,0); refreshStats(); };
+}
+
+/* ---------- oppsettskjerm ---------- */
+function chips(host,list,cur,onPick){
+  host.innerHTML="";
+  list.forEach(function(o){
+    var b=document.createElement("button");
+    b.type="button"; b.className="opt"; b.setAttribute("aria-pressed",String(o.id===cur));
+    b.innerHTML='<b>'+esc(o.t)+'</b><i>'+esc(o.d)+'</i>';
+    b.onclick=function(){
+      onPick(o.id);
+      host.querySelectorAll(".opt").forEach(function(x){ x.setAttribute("aria-pressed",String(x===b)); });
+    };
+    host.appendChild(b);
+  });
+}
+function refreshStats(){
+  if(ST.last && ST.last!==today()){
+    var y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+    if(ST.last!==y){ ST.streak=0; save(); }
+  }
+  $("s-streak").textContent=ST.streak;
+  $("s-total").textContent=ST.total;
+  $("s-best").textContent=ST.best;
+}
+chips($("pick-src"),SRC,ST.src,function(id){ ST.src=id; save(); });
+chips($("pick-kind"),KIND,ST.kind,function(id){ ST.kind=id; save(); });
+refreshStats();
+$("start").onclick=startSession;
+$("quit").onclick=function(){ $("game").hidden=true; $("setup").hidden=false; window.scrollTo(0,0); refreshStats(); };
+$("next").onclick=advance;
+
+/* lydbryterne */
+(function(){
+  var mute=$("a-mute"), slow=$("a-slow");
+  if(!mute||!window.TTS) return;
+  function sync(){
+    mute.setAttribute("aria-pressed",String(!window.TTS.isMuted()));
+    mute.querySelector("span").textContent = window.TTS.isMuted()?"Áudio desligado":"Áudio ligado";
+    slow.setAttribute("aria-pressed",String(window.TTS.isSlow()));
+  }
+  mute.onclick=function(){ window.TTS.setMuted(!window.TTS.isMuted()); sync(); };
+  slow.onclick=function(){ window.TTS.setSlow(!window.TTS.isSlow()); sync(); };
+  sync();
+})();
+})();
+</script>
+</body>
+</html>
