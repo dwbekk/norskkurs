@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nb">
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,17 +87,16 @@ body.testing .pt.shown{filter:none;background:transparent}
 <link rel="stylesheet" href="audio.css">
 </head>
 <body>
-<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="treinar.html">Treinar</a><a class="lvl" href="ordliste.html" aria-current="page">Palavras</a><a class="lvl" href="basico.html">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Kommer senere">B1</span><span class="lvl soon" title="Kommer senere">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
+<nav class="sitenav"><div class="inner"><a class="brand" href="index.html">Norskkurs</a><div class="levels"><a class="lvl" href="treinar.html">Treinar</a><a class="lvl" href="ordliste.html" aria-current="page">Palavras</a><a class="lvl" href="basico.html">Básico</a><a class="lvl" href="a1.html">A1</a><a class="lvl" href="a2.html">A2</a><span class="lvl soon" title="Em breve">B1</span><span class="lvl soon" title="Em breve">B2</span><a class="lvl" href="english.html">English</a></div></div></nav>
 <div class="wrap">
 <header>
-  <h1>500 ord<small>Norske hverdagsord med portugisisk</small></h1>
-  <p>Ordene er sortert etter type. Slå på «Test meg» for å skjule portugisisken og trykk på et ord for å se svaret.</p>
-  <p class="ptintro" lang="pt-BR">As palavras estão organizadas por tipo. Toque no alto-falante para ouvir a palavra em norueguês. «Test meg» esconde o português — toque para ver, e de novo para ouvir.</p>
+  <h1>500 palavras<small>Palavras norueguesas do dia a dia</small></h1>
+  <p lang="pt-BR">As palavras estão organizadas por tipo. Toque no alto-falante para ouvir a palavra em norueguês. «Me teste» esconde o português — toque para ver, e de novo para ouvir.</p>
 </header>
 <div class="bar">
   <div class="row">
-    <input type="search" id="q" placeholder="Søk på norsk eller portugisisk" aria-label="Søk">
-    <button class="test" id="test" aria-pressed="false">Test meg</button>
+    <input type="search" id="q" placeholder="Buscar em norueguês ou português" aria-label="Buscar">
+    <button class="test" id="test" aria-pressed="false">Me teste</button>
   </div>
   <div class="chips" id="chips"></div>
   <div class="count" id="count"></div>
@@ -109,7 +108,7 @@ body.testing .pt.shown{filter:none;background:transparent}
 <main id="list"></main>
 </div>
 <script>
-const RAW = `# Pronomen
+const RAW = `# Pronomes
 jeg|eu
 du|você
 han|ele
@@ -154,7 +153,7 @@ selv|mesmo / próprio
 hver|cada
 man|a gente / se (impessoal)
 som|que / como
-# Småord
+# Conectivos e preposições
 og|e
 eller|ou
 men|mas
@@ -201,7 +200,7 @@ hjemme|em casa
 her|aqui
 der|ali / lá
 borte|fora / longe
-# Adverb
+# Advérbios
 nå|agora
 alltid|sempre
 aldri|nunca
@@ -246,7 +245,7 @@ i dag|hoje
 i går|ontem
 i morgen|amanhã
 i kveld|hoje à noite
-# Verb
+# Verbos
 å være|ser / estar
 å ha|ter
 å gjøre|fazer
@@ -360,7 +359,7 @@ i kveld|hoje à noite
 å flytte|mudar(-se)
 å forklare|explicar
 å øve|praticar
-# Adjektiv
+# Adjetivos
 god|bom
 vond|ruim / dolorido
 stor|grande
@@ -438,7 +437,7 @@ grå|cinza
 brun|marrom
 rosa|rosa
 oransje|laranja
-# Tall
+# Números
 null|zero
 en / ett|um / uma
 to|dois
@@ -459,7 +458,7 @@ femti|cinquenta
 hundre|cem
 tusen|mil
 en million|um milhão
-# Tid
+# Tempo
 tid|tempo
 dag|dia
 natt|noite (madrugada)
@@ -489,7 +488,7 @@ ferie|férias
 bursdag|aniversário
 jul|Natal
 påske|Páscoa
-# Mennesker
+# Pessoas
 menneske|ser humano
 person|pessoa
 mann|homem / marido
@@ -515,7 +514,7 @@ kone|esposa
 kjæreste|namorado / namorada
 nabo|vizinho
 kollega|colega
-# Kropp
+# Corpo
 kropp|corpo
 hode|cabeça
 øye|olho
@@ -530,7 +529,7 @@ hjerte|coração
 hår|cabelo
 mage|barriga
 rygg|costas
-# Hjemme
+# Em casa
 hus|casa
 leilighet|apartamento
 rom|cômodo / quarto
@@ -552,7 +551,7 @@ lys|luz
 telefon|telefone
 datamaskin|computador
 TV|televisão
-# Mat
+# Comida
 mat|comida
 vann|água
 kaffe|café
@@ -580,7 +579,7 @@ lunsj|almoço
 middag|jantar
 kake|bolo
 is|sorvete / gelo
-# Steder
+# Lugares
 by|cidade
 land|país
 sted|lugar
@@ -604,7 +603,7 @@ flyplass|aeroporto
 båt|barco
 sykkel|bicicleta
 billett|passagem / ingresso
-# Annet
+# Outros
 penger|dinheiro
 ting|coisa
 navn|nome
@@ -626,10 +625,10 @@ const groups=[];let cur=null,n=0;
 RAW.split("\n").forEach(l=>{l=l.trim();if(!l)return;
   if(l.startsWith("#")){cur={name:l.slice(1).trim(),words:[]};groups.push(cur);return;}
   const [no,pt]=l.split("|");cur.words.push({no,pt,n:++n});});
-let active="Alle";
+let active="Todas";
 const chips=document.getElementById("chips"),list=document.getElementById("list"),
   q=document.getElementById("q"),count=document.getElementById("count"),test=document.getElementById("test");
-["Alle",...groups.map(g=>g.name)].forEach(name=>{
+["Todas",...groups.map(g=>g.name)].forEach(name=>{
   const b=document.createElement("button");b.className="chip";b.textContent=name;
   b.setAttribute("aria-pressed",name===active);
   b.onclick=()=>{active=name;chips.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));render();};
@@ -639,13 +638,13 @@ function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 function render(){
   const term=norm(q.value.trim());let html="",total=0;
   groups.forEach(g=>{
-    if(active!=="Alle"&&g.name!==active)return;
+    if(active!=="Todas"&&g.name!==active)return;
     const ws=g.words.filter(w=>!term||norm(w.no).includes(term)||norm(w.pt).includes(term));
     if(!ws.length)return;total+=ws.length;
-    html+='<section><h2>'+esc(g.name)+'<span>'+ws.length+' ord</span></h2><ul>'+
+    html+='<section><h2>'+esc(g.name)+'<span>'+ws.length+' palavras</span></h2><ul>'+
       ws.map(w=>'<li><span class="n">'+w.n+'</span><span class="no" lang="nb">'+esc(w.no)+'</span><span class="pt" lang="pt-BR">'+esc(w.pt)+'</span></li>').join("")+'</ul></section>';});
-  list.innerHTML=html||'<p class="empty">Ingen treff. Prøv et annet søkeord.</p>';
-  count.textContent="Viser "+total+" av "+n+" ord";}
+  list.innerHTML=html||'<p class="empty">Nada encontrado. Tente outra busca.</p>';
+  count.textContent="Mostrando "+total+" de "+n+" palavras";}
 q.addEventListener("input",render);
 test.onclick=()=>{const on=test.getAttribute("aria-pressed")!=="true";
   test.setAttribute("aria-pressed",on);document.body.classList.toggle("testing",on);
